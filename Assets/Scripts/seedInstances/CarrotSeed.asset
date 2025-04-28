@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5254e79fdf068f84cb1db1da443a7461, type: 3}
+  m_Name: CarrotSeed
+  m_EditorClassIdentifier: 
+  statesOfGrowth:
+  - {fileID: 7789490251497362485, guid: 01aad485ddf270847aea52f98bfe5f0c, type: 3}
+  - {fileID: 8137722427814730002, guid: 9fee32f69e554e2408e272a90225b7a7, type: 3}
+  - {fileID: 8546148837444840514, guid: ea1f9aeb02708564fb3c552aa3e7e32e, type: 3}
+  typeOfSeed: Carrot
+  dayBeforeGrowth: 1
+  plantType: 1

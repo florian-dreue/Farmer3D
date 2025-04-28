@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5774d819f65697647a7d771ac551045e, type: 3}
+  m_Name: TomatoSeed
+  m_EditorClassIdentifier: 
+  nameItem: TomatoSeed
+  description: 
+  type: 2
+  visuel: {fileID: 21300000, guid: 1042047a8c5f2994798fab366ddd8c07, type: 3}
+  prefab: {fileID: 2227913219161879071, guid: 52ed732a99fc3204da44cd7e6366059a, type: 3}
+  stackable: 0
+  weight: 300
+  seed: {fileID: 11400000, guid: e806afffc619f1a4aa880302283a370b, type: 2}
+  sappling: {fileID: 0}

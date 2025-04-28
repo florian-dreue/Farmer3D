@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5254e79fdf068f84cb1db1da443a7461, type: 3}
+  m_Name: EggplantSeed
+  m_EditorClassIdentifier: 
+  statesOfGrowth:
+  - {fileID: 9021533571043771964, guid: 3de640461f794dc44a223f1cfedb8abf, type: 3}
+  - {fileID: 8331122410249767392, guid: 1263c5c5f1c53d941996ba932a56be28, type: 3}
+  - {fileID: 4987168525372244248, guid: 29e8f6b3bd51b8145b726606716d8e39, type: 3}
+  - {fileID: 9111295212725099334, guid: bc4985a967f2fc840b295c8c9b4b44cc, type: 3}
+  typeOfSeed: Eggplant
+  dayBeforeGrowth: 2
+  plantType: 0
