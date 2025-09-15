@@ -354,7 +354,7 @@ public class InteractWithItem : MonoBehaviour
         //Si c'est une parcelle de terre on regarde si elle est labourée
         Dirt dirtSee = hit.transform.gameObject.GetComponent<Dirt>();
 
-        if (!dirtSee.plowed)
+        if (!dirtSee.getPlowed())
         {
             //Si elle n'est pas labour� on regarde si on as la houe pour donner la possibilit� de labourer
             if (inventory.GetToolEquipped()?.nameItem == "Hoe")
@@ -391,6 +391,15 @@ public class InteractWithItem : MonoBehaviour
                         harvestableSee.isSeedeed(seed);
                     }
                 }
+                else if(inventory.GetToolEquipped()?.nameItem == "Watercan" && dirtSee.getWatered())
+                {
+                    text.text = LanguageManager.Instance.GetTranslation("pressToWater");
+                    ColorBox.SetActive(true);
+                    if (Input.GetKeyDown(KeyCode.E))
+                    {
+                        dirtSee.isGettingWatered();
+                    }
+                }
                 else
                 {
                     text.text = LanguageManager.Instance.GetTranslation("seedToSeed");
@@ -403,13 +412,35 @@ public class InteractWithItem : MonoBehaviour
                 //Si on a déjà planté quelque chose on regarde si on peut ramasser
                 if (!harvestableSee.isCultureHarvestable())
                 {
-                    text.text = LanguageManager.Instance.GetTranslation(harvestableSee.GetTypeOfSeed().ToLower()) + LanguageManager.Instance.GetTranslation("plantSince") + (harvestableSee.GetTimeSincePlanted() == 0 ? LanguageManager.Instance.GetTranslation("today") : harvestableSee.GetTimeSincePlanted() + (harvestableSee.GetTimeSincePlanted() > 1 ? LanguageManager.Instance.GetTranslation("days") : LanguageManager.Instance.GetTranslation("day")));
-                    ColorBox.SetActive(true);
+                    if (!dirtSee.getWatered())
+                    {
+                        if (inventory.GetToolEquipped()?.nameItem == "Watercan")
+                        {
+                            text.text = LanguageManager.Instance.GetTranslation("pressToWater");
+                            ColorBox.SetActive(true);
+                            if (Input.GetKeyDown(KeyCode.E))
+                            {
+                                dirtSee.isGettingWatered();
+                            }
+                        }
+                        else
+                        {
+                            text.text = LanguageManager.Instance.GetTranslation("toolToWater");
+                            ColorBox.SetActive(true);
+                        }
+                    }
+                    else
+                    {
+                        text.text = LanguageManager.Instance.GetTranslation(harvestableSee.GetTypeOfSeed().ToLower()) + LanguageManager.Instance.GetTranslation("plantSince") + (harvestableSee.GetTimeSincePlanted() == 0 ? LanguageManager.Instance.GetTranslation("today") : harvestableSee.GetTimeSincePlanted() + (harvestableSee.GetTimeSincePlanted() > 1 ? LanguageManager.Instance.GetTranslation("days") : LanguageManager.Instance.GetTranslation("day")));
+                        ColorBox.SetActive(true);
+                    }
                 }
                 else
                 {
+                    
                     text.text = LanguageManager.Instance.GetTranslation(harvestableSee.GetTypeOfSeed().ToLower()) + LanguageManager.Instance.GetTranslation("harvestable");
                     ColorBox.SetActive(true);
+                        
                 }
 
             }

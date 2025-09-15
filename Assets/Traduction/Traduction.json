@@ -82,9 +82,12 @@
     "saveFail": "Save failed!",
     "pressToDrop": "Press R to drop the tool",
     "sell": "Sell",
-    "sellInventory": "Sell all your inventory for ",
+    "sellAll": "Sell all",
+    "sellInventory": "Sell selected elements for ",
     "cancel": "Cancel",
-    "pressToMarket": "Press E to open the market interface"
+    "pressToMarket": "Press E to open the market interface",
+    "pressToWater": "Press E to water",
+    "toolToWater":"You need the watercan to water"
   },
   "fr": {
     "welcome": "Bienvenue sur Farmer 3D!",
@@ -169,9 +172,12 @@
     "saveFail": "Sauvegarde échouée!",
     "pressToDrop":"Appuyer sur R pour lacher l'outil",
     "sell": "Vendre",
-    "sellInventory": "Vendre tout votre inventaire pour un total de ",
+    "sellAll": "Vendre tout",
+    "sellInventory": "Vendre les éléments électionnés pour un total de ",
     "cancel": "Annuler",
-    "pressToMarket": "Appuyer sur E pour ouvrir l'interface de vente"
+    "pressToMarket": "Appuyer sur E pour ouvrir l'interface de vente",
+    "pressToWater": "Appuyer sur E pour arroser",
+    "toolToWater":"Il vous faut l'arrosoir pour arroser"
   },
   "es": {
     "welcome": "¡Bienvenido a Farmer 3D!",
@@ -256,8 +262,11 @@
     "saveFail": "¡Error al guardar!",
     "pressToDrop": "Presiona R para soltar la herramienta",
     "sell": "Vender",
-    "sellInventory": "Vender todo tu inventario por ",
+    "sellAll": "Vender todo",
+    "sellInventory": "Vender articulos seleccionados por ",
     "cancel": "Cancelar",
-    "pressToMarket": "Presiona E para abrir la interfaz del mercado"
+    "pressToMarket": "Presiona E para abrir la interfaz del mercado",
+    "pressToWater": "Traduction manquante",
+    "toolToWater": "Traduction manquante"
   }
 }
