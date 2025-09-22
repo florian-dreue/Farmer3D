@@ -8277,8 +8277,8 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 940739169}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -11.522148}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -8289,7 +8289,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 1.8340724, y: -4.9390526}
+  m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
 --- !u!114 &940739176
@@ -8450,6 +8450,7 @@ MonoBehaviour:
   textJourInventaire: {fileID: 1548960570}
   textAmountMoney: {fileID: 1606471827}
   ColorBox: {fileID: 1381589445}
+  eventSystem: {fileID: 1784876545}
 --- !u!1001 &964408795
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -14550,8 +14551,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9846d0fbf68f85e4eb2f1a8635d148ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  inventaire: {fileID: 1757750696}
+  inventory: {fileID: 1757750696}
   inGameMenu: {fileID: 819543826}
+  nightMenu: {fileID: 1863671839}
+  marketMenu: {fileID: 37978117}
+  commandMenu: {fileID: 940739169}
+  gameController: {fileID: 877980407}
 --- !u!1001 &1794721208
 PrefabInstance:
   m_ObjectHideFlags: 0
