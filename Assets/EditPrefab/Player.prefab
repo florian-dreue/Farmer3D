@@ -502,10 +502,8 @@ MonoBehaviour:
     m_Bits: 64
   text: {fileID: 0}
   gameController: {fileID: 0}
-  menuDeNuit: {fileID: 0}
-  textNumeroJour: {fileID: 0}
-  textMoneyJour: {fileID: 0}
-  inventaire: {fileID: 0}
+  ColorBox: {fileID: 0}
+  eventSystem: {fileID: 0}
 --- !u!1 &2479320125457290916
 GameObject:
   m_ObjectHideFlags: 0
@@ -735,7 +733,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controller: {fileID: 5951937936276612666}
-  speed: 12
+  speed: 5
   gravity: -19
   jumpHeight: 2
   groundCheck: {fileID: 4735990199484719183}

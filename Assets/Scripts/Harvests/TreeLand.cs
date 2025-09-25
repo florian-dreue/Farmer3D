@@ -5,10 +5,13 @@ public class TreeLand : MonoBehaviour
 {
     private int state = 0;
     private int dayTracker = 0;
+    private int effectiveDays = 0;
     private GameObject actualPrefab;
     private bool Planted = false;
     private bool Pickable = false;
     private SapplingData sappling;
+    [SerializeField]
+    private TreeDirt dirt;
 
     //Fonction pour ajouter un jour
     public void AddDay()
@@ -17,32 +20,38 @@ public class TreeLand : MonoBehaviour
         if (Planted)
         {
             dayTracker++;
-            //On regarrde si le nombre de jour modulo le temps entre deux étape de pousse est égale à 0 pour chager le modèle
-            if (dayTracker % sappling.getDayBeforeGrowth() == 0)
-            {
 
-                if (state == 0)
+            if (dirt.getWatered())
+            {
+                effectiveDays++;
+
+                //On regarrde si le nombre de jour modulo le temps entre deux étape de pousse est égale à 0 pour chager le modèle
+                if (effectiveDays % sappling.getDayBeforeGrowth() == 0)
                 {
-                    //On initialise le modèle correspondant à l'étape actuelle
-                    actualPrefab = Instantiate(sappling.getStatesOfGrowth(state), gameObject.transform);
-                    state++;
-                }
-                else
-                {
-                    //Si la plantation n'est pas arrivé à terme on la fait avancée
-                    if (state < sappling.getNumberOfStates())
+                    if (state == 0)
                     {
-                        //Si on augmente la culture on détruit le model actuel avant de mettre le nouveau
-                        Destroy(actualPrefab);
+                        //On initialise le modèle correspondant à l'étape actuelle
                         actualPrefab = Instantiate(sappling.getStatesOfGrowth(state), gameObject.transform);
                         state++;
                     }
-                    if (state == sappling.getNumberOfStates())
+                    else
                     {
-                        //Si on arrive à la dernière étape on dit que la culture est récoltable
-                        Pickable = true;
+                        //Si la plantation n'est pas arrivé à terme on la fait avancée
+                        if (state < sappling.getNumberOfStates())
+                        {
+                            //Si on augmente la culture on détruit le model actuel avant de mettre le nouveau
+                            Destroy(actualPrefab);
+                            actualPrefab = Instantiate(sappling.getStatesOfGrowth(state), gameObject.transform);
+                            state++;
+                        }
+                        if (state == sappling.getNumberOfStates())
+                        {
+                            //Si on arrive à la dernière étape on dit que la culture est récoltable
+                            Pickable = true;
+                        }
                     }
                 }
+                dirt.isGettingDrained();
             }
         }
     }
@@ -69,6 +78,7 @@ public class TreeLand : MonoBehaviour
     public void Reinitialised()
     {
         dayTracker = 0;
+        effectiveDays = 0;
         Planted = false;
         Pickable = false;
         Destroy(actualPrefab);
