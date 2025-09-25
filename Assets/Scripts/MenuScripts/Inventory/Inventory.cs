@@ -288,6 +288,21 @@ public class Inventory : MonoBehaviour , ISaveable
         return toolEquipped;
     }
 
+    public void FillTool()
+    {
+        toolEquipped.filling = 100;
+    }
+
+    public void DrainTool(int purcentDrain)
+    {
+        toolEquipped.filling -= purcentDrain;
+    }
+
+    public int GetToolCapicity()
+    {
+        return toolEquipped.filling;
+    }
+
     public void EmptyTool()
     {
         toolEquipped = null;

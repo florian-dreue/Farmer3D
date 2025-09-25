@@ -16,6 +16,7 @@ TagManager:
   - TreeSappling
   - ObjMenu
   - Market
+  - Water
   layers:
   - Default
   - TransparentFX
