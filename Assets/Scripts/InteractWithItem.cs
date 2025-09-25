@@ -391,7 +391,7 @@ public class InteractWithItem : MonoBehaviour
                         harvestableSee.isSeedeed(seed);
                     }
                 }
-                else if(inventory.GetToolEquipped()?.nameItem == "Watercan" && dirtSee.getWatered())
+                else if(inventory.GetToolEquipped()?.nameItem == "Watercan" && !dirtSee.getWatered())
                 {
                     text.text = LanguageManager.Instance.GetTranslation("pressToWater");
                     ColorBox.SetActive(true);
@@ -402,6 +402,7 @@ public class InteractWithItem : MonoBehaviour
                 }
                 else
                 {
+                    Debug.Log(dirtSee.getWatered());
                     text.text = LanguageManager.Instance.GetTranslation("seedToSeed");
                     ColorBox.SetActive(true);
                 }
