@@ -26,31 +26,10 @@ public class InteractWithItem : MonoBehaviour
     private GameController gameController;
 
     [SerializeField]
-    private GameObject menuDeNuit;
-
-    [SerializeField]
-    private GameObject menuMarket;
-
-    [SerializeField]
-    private TextMeshProUGUI textNumeroJour;
-
-    [SerializeField]
-    private TextMeshProUGUI textMoneyJour;
-
-    [SerializeField]
-    private Button endButton;
-
-    [SerializeField]
-    private GameObject inventaire;
-
-    [SerializeField]
-    private TextMeshProUGUI textJourInventaire;
-
-    [SerializeField]
-    private TextMeshProUGUI textAmountMoney;
-
-    [SerializeField]
     private GameObject ColorBox;
+
+    [SerializeField]
+    private EventSystem eventSystem;
 
     // Start is called before the first frame update
     private void Start()
@@ -74,9 +53,21 @@ public class InteractWithItem : MonoBehaviour
         RaycastHit hit;
         text.text = "";
         ColorBox.SetActive(false);
-        if (menuDeNuit.activeSelf || menuMarket.activeSelf)
+
+        // Appuyez sur R pour lâcher l'outil équipé
+        if (Input.GetKeyDown(KeyCode.R))
         {
-            return;
+            DropEquippedTool();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Q))
+        {
+            eventSystem.openMenu();
+        }
+
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            eventSystem.clickBack();
         }
 
         if (Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask))
@@ -91,12 +82,6 @@ public class InteractWithItem : MonoBehaviour
             {
                 Debug.Log("Tag inconnu " + tag);
             }
-        }
-
-        // Appuyez sur R pour lâcher l'outil équipé
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            DropEquippedTool();
         }
     }
 
@@ -224,14 +209,7 @@ public class InteractWithItem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Time.timeScale = 0;
-            UnityEngine.Cursor.visible = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-
-            inventaire.SetActive(false);
-            menuMarket.SetActive(true);
-            var amount = inventory.GetSellAmount();
-            textAmountMoney.text = LanguageManager.Instance.GetTranslation("sellInventory") + amount;
+            eventSystem.openMarketMenu();
         }
     }
 
@@ -331,20 +309,7 @@ public class InteractWithItem : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            //On désactive l'affichage de l'inventaire et on active l'affichage du menu de nuit
-            inventaire.SetActive(false);
-            menuDeNuit.SetActive(true);
-            //On désactive le mouvement de la caméra et on réactive la souris
-            Time.timeScale = 0;
-            UnityEngine.Cursor.visible = true;
-            UnityEngine.Cursor.lockState = CursorLockMode.None;
-            //On change le text pour afficher le jour et on lance le nouveau jour
-            textNumeroJour.text = LanguageManager.Instance.GetTranslation("endDay") + gameController.GetDays();
-            textMoneyJour.text = LanguageManager.Instance.GetTranslation("moneyWin") + gameController.GetMoneyWin();
-            var textendButton = endButton.GetComponentInChildren<TextMeshProUGUI>();
-            textendButton.text = LanguageManager.Instance.GetTranslation("endRecap");
-            gameController.NewDay();
-            textJourInventaire.text = gameController.GetDays().ToString();
+            eventSystem.openNightMenu();
         }
     }
 
