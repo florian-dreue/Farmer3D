@@ -8441,14 +8441,6 @@ MonoBehaviour:
     m_Bits: 64
   text: {fileID: 243954956}
   gameController: {fileID: 877980407}
-  menuDeNuit: {fileID: 1863671839}
-  menuMarket: {fileID: 37978117}
-  textNumeroJour: {fileID: 1779359438}
-  textMoneyJour: {fileID: 935185556}
-  endButton: {fileID: 305595045}
-  inventaire: {fileID: 1757750696}
-  textJourInventaire: {fileID: 1548960570}
-  textAmountMoney: {fileID: 1606471827}
   ColorBox: {fileID: 1381589445}
   eventSystem: {fileID: 1784876545}
 --- !u!1001 &964408795
@@ -17537,6 +17529,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 733997754}
     m_Modifications:
+    - target: {fileID: 181085080320584133, guid: ba166ea9388aa864786b107b3f931bbb, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1079000882559835446, guid: ba166ea9388aa864786b107b3f931bbb, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11
@@ -17580,6 +17576,10 @@ PrefabInstance:
     - target: {fileID: 1378103084748034230, guid: ba166ea9388aa864786b107b3f931bbb, type: 3}
       propertyPath: m_Name
       value: ZoneCultivable1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8870976311482035170, guid: ba166ea9388aa864786b107b3f931bbb, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

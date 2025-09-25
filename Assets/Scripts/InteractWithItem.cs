@@ -217,12 +217,33 @@ public class InteractWithItem : MonoBehaviour
     private void PlantTree(RaycastHit hit)
     {
         TreeLand treeLand = hit.transform.gameObject.GetComponent<TreeLand>();
+        TreeDirt dirtSee = hit.transform.gameObject.GetComponent<TreeDirt>();
         if (treeLand.isPlanted())
         {
             if (!treeLand.isPickable())
             {
-                text.text = LanguageManager.Instance.GetTranslation(treeLand.getTreeName().ToLower()) + LanguageManager.Instance.GetTranslation("plantSince") + (treeLand.daySincePlantation() == 0 ? LanguageManager.Instance.GetTranslation("today") : treeLand.daySincePlantation() + (treeLand.daySincePlantation() > 1 ? LanguageManager.Instance.GetTranslation("days") : LanguageManager.Instance.GetTranslation("day")));
-                ColorBox.SetActive(true);
+                if (!dirtSee.getWatered())
+                {
+                    if (inventory.GetToolEquipped()?.nameItem == "Watercan")
+                    {
+                        text.text = LanguageManager.Instance.GetTranslation("pressToWater");
+                        ColorBox.SetActive(true);
+                        if (Input.GetKeyDown(KeyCode.E))
+                        {
+                            dirtSee.isGettingWatered();
+                        }
+                    }
+                    else
+                    {
+                        text.text = LanguageManager.Instance.GetTranslation("toolToWater");
+                        ColorBox.SetActive(true);
+                    }
+                }
+                else
+                {
+                    text.text = LanguageManager.Instance.GetTranslation(treeLand.getTreeName().ToLower()) + LanguageManager.Instance.GetTranslation("plantSince") + (treeLand.daySincePlantation() == 0 ? LanguageManager.Instance.GetTranslation("today") : treeLand.daySincePlantation() + (treeLand.daySincePlantation() > 1 ? LanguageManager.Instance.GetTranslation("days") : LanguageManager.Instance.GetTranslation("day")));
+                    ColorBox.SetActive(true);
+                }   
             }
             else
             {
@@ -240,6 +261,15 @@ public class InteractWithItem : MonoBehaviour
                 {
                     SapplingData sappling = inventory.GetToolEquipped().sappling;
                     treeLand.Plant(sappling);
+                }
+            }
+            else if (inventory.GetToolEquipped()?.nameItem == "Watercan" && !dirtSee.getWatered())
+            {
+                text.text = LanguageManager.Instance.GetTranslation("pressToWater");
+                ColorBox.SetActive(true);
+                if (Input.GetKeyDown(KeyCode.E))
+                {
+                    dirtSee.isGettingWatered();
                 }
             }
             else

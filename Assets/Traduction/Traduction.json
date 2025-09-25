@@ -87,7 +87,8 @@
     "cancel": "Cancel",
     "pressToMarket": "Press E to open the market interface",
     "pressToWater": "Press E to water",
-    "toolToWater":"You need the watercan to water"
+    "toolToWater":"You need the watercan to water",
+    "pressToFillWater":"Press E to fill with water"
   },
   "fr": {
     "welcome": "Bienvenue sur Farmer 3D!",
@@ -177,7 +178,8 @@
     "cancel": "Annuler",
     "pressToMarket": "Appuyer sur E pour ouvrir l'interface de vente",
     "pressToWater": "Appuyer sur E pour arroser",
-    "toolToWater":"Il vous faut l'arrosoir pour arroser"
+    "toolToWater":"Il vous faut l'arrosoir pour arroser",
+    "pressToFillWater":"Appuyer sur E pour remplir d'eau"
   },
   "es": {
     "welcome": "¡Bienvenido a Farmer 3D!",
@@ -267,6 +269,7 @@
     "cancel": "Cancelar",
     "pressToMarket": "Presiona E para abrir la interfaz del mercado",
     "pressToWater": "Traduction manquante",
-    "toolToWater": "Traduction manquante"
+    "toolToWater": "Traduction manquante",
+    "pressToFillWater":"Presiona E para llenar con agua"
   }
 }
