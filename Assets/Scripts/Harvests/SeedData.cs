@@ -2,7 +2,7 @@ using UnityEngine;
 
 // Classe contenant les données des graines
 [CreateAssetMenu(fileName = "seed", menuName = "seed/New seed")]
-public class SeedData : ScriptableObject
+public class SeedData : ItemData
 {
     [SerializeField]
     private GameObject[] statesOfGrowth;
@@ -12,6 +12,12 @@ public class SeedData : ScriptableObject
     private int dayBeforeGrowth;
     [SerializeField]
     private PlantType plantType;
+
+    SeedData() { 
+        type = ItemType.Seed;
+        stackable = false;
+        price = 0;
+    }
 
     //Fonction pour récupérer le type de plante
     public PlantType GetPlantType()

@@ -263,13 +263,13 @@ public class InteractWithItem : MonoBehaviour
         }
         else
         {
-            if (inventory.GetToolEquipped()?.type == ItemType.Sappling)
+            SapplingData sappling = inventory.GetToolEquipped() as SapplingData;
+            if (sappling != null)
             {
                 text.text = LanguageManager.Instance.GetTranslation("pressToPlant");
                 ColorBox.SetActive(true);
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    SapplingData sappling = inventory.GetToolEquipped().sappling;
                     treeLand.Plant(sappling);
                 }
             }
@@ -394,14 +394,13 @@ public class InteractWithItem : MonoBehaviour
             if (!harvestableSee.isSeedPlanted())
             {
                 //Si on as pas déjà de graine plantées on en plante si on as des graines dans l'inventaire
-
-                if (inventory.GetToolEquipped()?.type == ItemType.Seed)
+                SeedData seed = inventory.GetToolEquipped() as SeedData;
+                if (seed != null)
                 {
                     text.text = LanguageManager.Instance.GetTranslation("pressToSeed");
                     ColorBox.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        SeedData seed = inventory.GetToolEquipped().seed;
                         harvestableSee.isSeedeed(seed);
                     }
                 }
@@ -425,7 +424,6 @@ public class InteractWithItem : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(dirtSee.getWatered());
                     text.text = LanguageManager.Instance.GetTranslation("seedToSeed");
                     ColorBox.SetActive(true);
                 }
@@ -484,7 +482,9 @@ public class InteractWithItem : MonoBehaviour
     private void FillCan(RaycastHit hit)
     {
         ItemData toolEquiped = inventory.GetToolEquipped();
-        if (toolEquiped != null && toolEquiped.nameItem == "Watercan" && toolEquiped.filling != 100)
+        FillableData fillable = toolEquiped as FillableData;
+
+        if (fillable != null && fillable.nameItem == "Watercan" && fillable.GetFilling() != 100)
         {
             text.text = LanguageManager.Instance.GetTranslation("pressToFillWater");
             ColorBox.SetActive(true);

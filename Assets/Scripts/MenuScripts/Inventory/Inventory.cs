@@ -290,17 +290,20 @@ public class Inventory : MonoBehaviour , ISaveable
 
     public void FillTool()
     {
-        toolEquipped.filling = 100;
+        FillableData fillable = toolEquipped as FillableData;
+        fillable.FillTool(100);
     }
 
     public void DrainTool(int purcentDrain)
     {
-        toolEquipped.filling -= purcentDrain;
+        FillableData fillable = toolEquipped as FillableData;
+        fillable.DrainTool(purcentDrain);
     }
 
     public int GetToolCapicity()
     {
-        return toolEquipped.filling;
+        FillableData fillable = toolEquipped as FillableData;
+        return fillable.GetFilling();
     }
 
     public void EmptyTool()

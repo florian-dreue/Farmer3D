@@ -12,9 +12,6 @@ public class ItemData : ScriptableObject
     public bool stackable;
     public int weight;
     public int price;
-    public SeedData seed;
-    public SapplingData sappling;
-    public int filling = 0;
 }
 
 public enum ItemType
