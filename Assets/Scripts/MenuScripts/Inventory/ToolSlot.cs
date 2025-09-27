@@ -19,7 +19,7 @@ public class ToolSlot : MonoBehaviour
     public void setItem(ItemData item)
     {
         this.item = item;
-        this.itemVisual.sprite = item.visuel;
+        this.itemVisual.sprite = item.GetVisuel();
     }
 
     public void EmptySlot()

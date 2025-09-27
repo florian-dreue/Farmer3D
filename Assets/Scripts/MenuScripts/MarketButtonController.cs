@@ -83,7 +83,7 @@ public class MarketButtonController : MonoBehaviour
 
             var nameItem = listOfItem[i].count > 1 ? LanguageManager.Instance.GetTranslation(listOfItem[i].itemData.name.ToLower() + "Plural") : LanguageManager.Instance.GetTranslation(listOfItem[i].itemData.name.ToLower());
             detail.setDetail(listOfItem[i].count + " " + nameItem);
-            detail.setPrice(listOfItem[i].itemData.price);
+            detail.setPrice(listOfItem[i].itemData.GetPrice());
             detail.setQuantityInInventory(listOfItem[i].count);
         }
     }
@@ -137,7 +137,7 @@ public class MarketButtonController : MonoBehaviour
 
             var nameItem = listOfItem[i].count > 1 ? LanguageManager.Instance.GetTranslation(listOfItem[i].itemData.name.ToLower() + "Plural") : LanguageManager.Instance.GetTranslation(listOfItem[i].itemData.name.ToLower());
             detail.setDetail(listOfItem[i].count + " " + nameItem);
-            detail.setPrice(listOfItem[i].itemData.price);
+            detail.setPrice(listOfItem[i].itemData.GetPrice());
             detail.setQuantityInInventory(listOfItem[i].count);
         }
     }

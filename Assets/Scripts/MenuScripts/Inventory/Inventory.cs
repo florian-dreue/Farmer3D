@@ -45,22 +45,22 @@ public class Inventory : MonoBehaviour , ISaveable
     public void AddItem(ItemData item)
     {
         //Si l'objet est une ressource on l'ajoute à l'inventaire normal
-        if(item.type == ItemType.Ressource)
+        if(item.GetItemType() == ItemType.Ressource)
         {
             //On cherche si cet objet est déjà présent dans l'inventaire
             ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
 
             //Si l'objet est présent et qu'il est stackable on incrémente le nombre d'objet et on met à jour le poids
-            if (itemInInventory != null && item.stackable)
+            if (itemInInventory != null && item.IsStackable())
             {
                 itemInInventory.count++;
-                actualWeight += item.weight;
+                actualWeight += item.GetWeight();
             }
             //Sinon, on l'ajoute dans un nouvel espace
             else
             {
                 content.Add(new ItemInInventory { itemData = item, count = 1 });
-                actualWeight += item.weight;
+                actualWeight += item.GetWeight();
             }
         }
         //SInon on ajoute l'objet dans l'inventaire de l'outil
@@ -77,7 +77,7 @@ public class Inventory : MonoBehaviour , ISaveable
     //Fonction pour la suppression d'un objet à l'inventaire
     public void RemoveItem(ItemData item)
     {
-        if (item.type == ItemType.Ressource)
+        if (item.GetItemType() == ItemType.Ressource)
         {
             ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
 
@@ -101,7 +101,7 @@ public class Inventory : MonoBehaviour , ISaveable
 
     public void SubstractItem(ItemData item, int amount)
     {
-        if (item.type == ItemType.Ressource)
+        if (item.GetItemType() == ItemType.Ressource)
         {
             ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
 
@@ -182,15 +182,15 @@ public class Inventory : MonoBehaviour , ISaveable
     public bool HaveSpace(ItemData item)
     {
         //Si c'est une ressource, on regarde dans l'inventaire normal
-        if(item.type == ItemType.Ressource)
+        if(item.GetItemType() == ItemType.Ressource)
         {
             ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
 
             //Si l'objet est présnet et qu'il est stackable
-            if (itemInInventory != null && item.stackable)
+            if (itemInInventory != null && item.IsStackable())
             {
                 //On regarde si le futur poids n'est pas au dessus de la capacité du joueur
-                if (actualWeight + item.weight <= maxWeight)
+                if (actualWeight + item.GetWeight() <= maxWeight)
                 {
                     return true;
                 }
@@ -202,7 +202,7 @@ public class Inventory : MonoBehaviour , ISaveable
             //S'il n'est pas présent on regarde s'il y a assez de poids disponible et assez de slots disponible
             else
             {
-                if (actualWeight + item.weight <= maxWeight && content.Count+1 <= maxSize)
+                if (actualWeight + item.GetWeight() <= maxWeight && content.Count+1 <= maxSize)
                 {
                     return true;
                 }
@@ -216,7 +216,7 @@ public class Inventory : MonoBehaviour , ISaveable
         else
         {
             //Si on as pas déjà d'outil et que le joueur peut le porter on retourne true
-            if (!toolEquipped && actualWeight + item.weight <= maxWeight)
+            if (!toolEquipped && actualWeight + item.GetWeight() <= maxWeight)
             {
                 return true;
             }
@@ -270,7 +270,7 @@ public class Inventory : MonoBehaviour , ISaveable
         int price = 0;
         foreach (ItemInInventory itemInInventory in this.content)
         {
-            price += itemInInventory.itemData.price * itemInInventory.count;
+            price += itemInInventory.itemData.GetPrice() * itemInInventory.count;
         }
 
         return price;
@@ -290,17 +290,20 @@ public class Inventory : MonoBehaviour , ISaveable
 
     public void FillTool()
     {
-        toolEquipped.filling = 100;
+        FillableData fillable = toolEquipped as FillableData;
+        fillable.FillTool(100);
     }
 
     public void DrainTool(int purcentDrain)
     {
-        toolEquipped.filling -= purcentDrain;
+        FillableData fillable = toolEquipped as FillableData;
+        fillable.DrainTool(purcentDrain);
     }
 
     public int GetToolCapicity()
     {
-        return toolEquipped.filling;
+        FillableData fillable = toolEquipped as FillableData;
+        return fillable.GetFilling();
     }
 
     public void EmptyTool()

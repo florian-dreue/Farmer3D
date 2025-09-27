@@ -15,8 +15,8 @@ public class Slot : MonoBehaviour
     public void SetSlot(ItemData item)
     {
         this.item = item;
-        itemVisual.sprite = item.visuel;
-        if(item.stackable)
+        itemVisual.sprite = item.GetVisuel();
+        if(item.IsStackable())
         {
             countText.enabled = true;
             countText.text = "1";
@@ -47,7 +47,7 @@ public class Slot : MonoBehaviour
 
     public bool ItemStackable()
     {
-        return item.stackable;
+        return item.IsStackable();
     }
 
 }

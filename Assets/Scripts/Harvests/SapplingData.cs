@@ -2,7 +2,7 @@ using UnityEngine;
 
 // Classe contenant les données des jeunes pousses
 [CreateAssetMenu(fileName = "sappling", menuName = "sappling/New sappling")]
-public class SapplingData : ScriptableObject
+public class SapplingData : ItemData
 {
     [SerializeField]
     private GameObject[] statesOfGrowth;
@@ -10,6 +10,13 @@ public class SapplingData : ScriptableObject
     private string typeOfSappling;
     [SerializeField]
     private int dayBeforeGrowth;
+
+    SapplingData()
+    {
+        type = ItemType.Sappling;
+        stackable = false;
+        price = 0;
+    }
 
     //Fonction permettant de récupérer le nombre de jours avant la croissance
     public int getDayBeforeGrowth()

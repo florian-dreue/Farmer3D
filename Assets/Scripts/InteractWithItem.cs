@@ -93,7 +93,7 @@ public class InteractWithItem : MonoBehaviour
         if (inventory.GetToolEquipped() != null)
         {
             // Instancie le prefab de l'outil
-            GameObject droppedTool = Instantiate(inventory.GetToolEquipped().prefab);
+            GameObject droppedTool = Instantiate(inventory.GetToolEquipped().GetPrefab());
 
             // Positionne l'objet juste devant le joueur
             Vector3 dropPosition = transform.position + transform.forward * 1.0f; // Position devant le joueur
@@ -131,7 +131,7 @@ public class InteractWithItem : MonoBehaviour
 
         if (inventory.HaveSpace(itemSee))
         {
-            text.text = LanguageManager.Instance.GetTranslation("pressToPickUp") + LanguageManager.Instance.GetTranslation(itemSee.nameItem.ToLower() + "Gender"); ;
+            text.text = LanguageManager.Instance.GetTranslation("pressToPickUp") + LanguageManager.Instance.GetTranslation(itemSee.GetName().ToLower() + "Gender");
             ColorBox.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
@@ -169,15 +169,16 @@ public class InteractWithItem : MonoBehaviour
                     //Pour chaque ressource, on génère un nombre aléatoire entre le minimum et le maximum de ressources possible
                     for (int j = 0; j < UnityEngine.Random.Range(ressource.minRessource, ressource.maxRessource); j++)
                     {
+                        GameObject prefab = ressource.itemData.GetPrefab();
                         //On instancie un objet
-                        GameObject instantiatedRessource = GameObject.Instantiate(ressource.itemData.prefab);
+                        GameObject instantiatedRessource = GameObject.Instantiate(prefab);
 
                         if (harvestable.GetPlantType() == PlantType.Plant)
                         {
                             //On modifie l�g�rement sa position pour qu'il soit ramassable
                             Vector3 newPos = harvestable.transform.position;
-                            newPos.z += ressource.itemData.prefab.transform.position.z;
-                            newPos.y += ressource.itemData.prefab.transform.position.y;
+                            newPos.z += prefab.transform.position.z;
+                            newPos.y += prefab.transform.position.y;
                             newPos.x += 0.5f;
                             instantiatedRessource.transform.position = newPos;
                         }
@@ -197,7 +198,7 @@ public class InteractWithItem : MonoBehaviour
         //Si on as pas l'objet ad�quat on affiche le text n�cessaire
         else
         {
-            text.text = LanguageManager.Instance.GetTranslation("needTool") + LanguageManager.Instance.GetTranslation(fullGrownItem.GetToolRequired().nameItem.ToLower()) + LanguageManager.Instance.GetTranslation("toHarvest");
+            text.text = LanguageManager.Instance.GetTranslation("needTool") + LanguageManager.Instance.GetTranslation(fullGrownItem.GetToolRequired().GetName().ToLower()) + LanguageManager.Instance.GetTranslation("toHarvest");
             ColorBox.SetActive(true);
         }
     }
@@ -225,7 +226,7 @@ public class InteractWithItem : MonoBehaviour
             {
                 if (!dirtSee.getWatered())
                 {
-                    if (inventory.GetToolEquipped()?.nameItem == "Watercan")
+                    if (inventory.GetToolEquipped()?.GetName() == "Watercan")
                     {
                         if(inventory.GetToolCapicity() >= 20)
                         {
@@ -263,17 +264,17 @@ public class InteractWithItem : MonoBehaviour
         }
         else
         {
-            if (inventory.GetToolEquipped()?.type == ItemType.Sappling)
+            SapplingData sappling = inventory.GetToolEquipped() as SapplingData;
+            if (sappling != null)
             {
                 text.text = LanguageManager.Instance.GetTranslation("pressToPlant");
                 ColorBox.SetActive(true);
                 if (Input.GetKeyDown(KeyCode.E))
                 {
-                    SapplingData sappling = inventory.GetToolEquipped().sappling;
                     treeLand.Plant(sappling);
                 }
             }
-            else if (inventory.GetToolEquipped()?.nameItem == "Watercan" && !dirtSee.getWatered())
+            else if (inventory.GetToolEquipped()?.GetName() == "Watercan" && !dirtSee.getWatered())
             {
                 if (inventory.GetToolCapicity() >= 20)
                 {
@@ -319,7 +320,7 @@ public class InteractWithItem : MonoBehaviour
                 for (int j = 0; j < UnityEngine.Random.Range(ressource.minRessource, ressource.maxRessource); j++)
                 {
                     //On instancie un objet
-                    GameObject instantiatedRessource = GameObject.Instantiate(ressource.itemData.prefab);
+                    GameObject instantiatedRessource = GameObject.Instantiate(ressource.itemData.GetPrefab());
                     float xRand = (float)UnityEngine.Random.Range(4, 8) / 10;
                     int xSigne = UnityEngine.Random.Range(0, 2);
                     float zRand = (float)UnityEngine.Random.Range(4, 8) / 10;
@@ -371,7 +372,7 @@ public class InteractWithItem : MonoBehaviour
         if (!dirtSee.getPlowed())
         {
             //Si elle n'est pas labour� on regarde si on as la houe pour donner la possibilit� de labourer
-            if (inventory.GetToolEquipped()?.nameItem == "Hoe")
+            if (inventory.GetToolEquipped()?.GetName() == "Hoe")
             {
                 text.text = LanguageManager.Instance.GetTranslation("pressToPlow");
                 ColorBox.SetActive(true);
@@ -394,18 +395,17 @@ public class InteractWithItem : MonoBehaviour
             if (!harvestableSee.isSeedPlanted())
             {
                 //Si on as pas déjà de graine plantées on en plante si on as des graines dans l'inventaire
-
-                if (inventory.GetToolEquipped()?.type == ItemType.Seed)
+                SeedData seed = inventory.GetToolEquipped() as SeedData;
+                if (seed != null)
                 {
                     text.text = LanguageManager.Instance.GetTranslation("pressToSeed");
                     ColorBox.SetActive(true);
                     if (Input.GetKeyDown(KeyCode.E))
                     {
-                        SeedData seed = inventory.GetToolEquipped().seed;
                         harvestableSee.isSeedeed(seed);
                     }
                 }
-                else if(inventory.GetToolEquipped()?.nameItem == "Watercan" && !dirtSee.getWatered())
+                else if(inventory.GetToolEquipped()?.GetName() == "Watercan" && !dirtSee.getWatered())
                 {
                     if (inventory.GetToolCapicity() >= 10)
                     {
@@ -425,7 +425,6 @@ public class InteractWithItem : MonoBehaviour
                 }
                 else
                 {
-                    Debug.Log(dirtSee.getWatered());
                     text.text = LanguageManager.Instance.GetTranslation("seedToSeed");
                     ColorBox.SetActive(true);
                 }
@@ -438,7 +437,7 @@ public class InteractWithItem : MonoBehaviour
                 {
                     if (!dirtSee.getWatered())
                     {
-                        if (inventory.GetToolEquipped()?.nameItem == "Watercan")
+                        if (inventory.GetToolEquipped()?.GetName() == "Watercan")
                         {
                             if (inventory.GetToolCapicity() >= 20)
                             {
@@ -484,7 +483,9 @@ public class InteractWithItem : MonoBehaviour
     private void FillCan(RaycastHit hit)
     {
         ItemData toolEquiped = inventory.GetToolEquipped();
-        if (toolEquiped != null && toolEquiped.nameItem == "Watercan" && toolEquiped.filling != 100)
+        FillableData fillable = toolEquiped as FillableData;
+
+        if (fillable != null && fillable.GetName() == "Watercan" && fillable.GetFilling() != 100)
         {
             text.text = LanguageManager.Instance.GetTranslation("pressToFillWater");
             ColorBox.SetActive(true);

@@ -12,6 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5254e79fdf068f84cb1db1da443a7461, type: 3}
   m_Name: CarrotSeed
   m_EditorClassIdentifier: 
+  nameItem: CarrotSeed
+  description: 
+  type: 2
+  visuel: {fileID: 21300000, guid: 4515c61459c037f4fab4a23a8c8d15e0, type: 3}
+  prefab: {fileID: 7666391188389969913, guid: 262d1ce9c60540242bf28980dacffcd7, type: 3}
+  stackable: 0
+  weight: 300
+  price: 0
+  sappling: {fileID: 0}
   statesOfGrowth:
   - {fileID: 7789490251497362485, guid: 01aad485ddf270847aea52f98bfe5f0c, type: 3}
   - {fileID: 8137722427814730002, guid: 9fee32f69e554e2408e272a90225b7a7, type: 3}

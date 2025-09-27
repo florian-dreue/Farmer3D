@@ -9,15 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5774d819f65697647a7d771ac551045e, type: 3}
-  m_Name: Hoe
+  m_Script: {fileID: 11500000, guid: 00ec16603c369e34383761026793e230, type: 3}
+  m_Name: Watercan
   m_EditorClassIdentifier: 
-  nameItem: Hoe
+  nameItem: Watercan
   description: 
   type: 0
-  visuel: {fileID: 21300000, guid: 4632e854ef0ee934885e0953c49553e6, type: 3}
-  prefab: {fileID: 1670586203085811935, guid: ae78e34dbecdca847a938199eb2badb3, type: 3}
+  visuel: {fileID: 21300000, guid: d5aca6acabbdf4842b725c0323a9e169, type: 3}
+  prefab: {fileID: 4103860775831644438, guid: 1455312e7ee50cb449c6792abad5fe95, type: 3}
   stackable: 0
   weight: 1000
+  price: 0
   seed: {fileID: 0}
   sappling: {fileID: 0}
+  filling: 0
+  maxFilling: 100
