@@ -8,7 +8,7 @@ public class FillableData : ToolData
     [SerializeField]
     private int filling = 0;
     [SerializeField]
-    private int maxFilling;
+    public int maxFilling { get; }
 
     public void FillTool(int quantity)
     {

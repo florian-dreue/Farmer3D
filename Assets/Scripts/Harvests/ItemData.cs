@@ -4,14 +4,32 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "item", menuName = "item/New item")]
 public class ItemData : ScriptableObject
 {
-    public string nameItem;
-    public string description;
-    public ItemType type;
-    public Sprite visuel;
-    public GameObject prefab;
-    public bool stackable;
-    public int weight;
-    public int price;
+    [SerializeField]
+    protected string nameItem;
+    [SerializeField]
+    protected string description;
+    [SerializeField]
+    protected ItemType type;
+    [SerializeField]
+    protected Sprite visuel;
+    [SerializeField]
+    protected GameObject prefab;
+    [SerializeField]
+    protected bool stackable;
+    [SerializeField]
+    protected int weight;
+    [SerializeField]
+    protected int price;
+
+    public string GetName() {  return nameItem; }
+    public string GetDescription() { return description; }
+    public ItemType GetItemType() { return type; }
+    public Sprite GetVisuel() { return visuel; }
+    public GameObject GetPrefab() { return prefab; }
+    public bool IsStackable() { return stackable; }
+    public int GetPrice() { return price; }
+    public int GetWeight() { return weight; }
+
 }
 
 public enum ItemType
