@@ -20,7 +20,4 @@ MonoBehaviour:
   stackable: 0
   weight: 1000
   price: 0
-  seed: {fileID: 0}
-  sappling: {fileID: 0}
-  filling: 0
   maxFilling: 100

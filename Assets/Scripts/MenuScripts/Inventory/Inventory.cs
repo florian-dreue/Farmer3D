@@ -9,13 +9,11 @@ using System;
 //La partie inventaire classique pour les récoltes
 public class Inventory : MonoBehaviour , ISaveable
 {
-    [SerializeField]
-    private List<ItemInInventory> content;
+    private List<ItemInInventory> content = new List<ItemInInventory>();
 
     [SerializeField]
     private GameObject inventoryPanel;
 
-    [SerializeField]
     private ItemData toolEquipped;
 
     [SerializeField]
@@ -292,12 +290,14 @@ public class Inventory : MonoBehaviour , ISaveable
     {
         FillableData fillable = toolEquipped as FillableData;
         fillable.FillTool(100);
+        toolSlot.updateItem(fillable);
     }
 
     public void DrainTool(int purcentDrain)
     {
         FillableData fillable = toolEquipped as FillableData;
         fillable.DrainTool(purcentDrain);
+        toolSlot.updateItem(fillable);
     }
 
     public int GetToolCapicity()
