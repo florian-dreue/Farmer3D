@@ -114,6 +114,12 @@ public class InteractWithItem : MonoBehaviour
                 rb.isKinematic = false;
             }
 
+            Item droppedItem = droppedTool.GetComponent<Item>();
+            if (droppedItem != null)
+            {
+                droppedItem.Initialize(inventory.GetToolEquipped()); // injecte la copie modifiée
+            }
+
             // Retire l'outil de l'inventaire
             inventory.EmptyTool();
         }

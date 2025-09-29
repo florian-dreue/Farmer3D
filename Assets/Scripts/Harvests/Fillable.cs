@@ -2,29 +2,28 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "fillable", menuName = "item/New fillable")]
-public class FillableData : ToolData
+public class Fillable : MonoBehaviour
 {
     private int filling = 0;
     [SerializeField]
-    private int maxFilling;
+    private FillableData fillableData;
 
     public void FillTool(int quantity)
     {
-        if(filling + quantity <= maxFilling)
+        if (filling + quantity <= fillableData.GetMaxFilling())
         {
             filling += quantity;
         }
         else
         {
-            filling = maxFilling;
+            filling = fillableData.GetMaxFilling();
         }
-        
+
     }
 
     public void DrainTool(int quantity)
     {
-        if(filling >= quantity)
+        if (filling >= quantity)
         {
             filling -= quantity;
         }
@@ -35,6 +34,4 @@ public class FillableData : ToolData
     }
 
     public int GetFilling() { return filling; }
-
-    public int GetMaxFilling() { return maxFilling; }
 }
