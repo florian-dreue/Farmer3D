@@ -71,6 +71,11 @@ public class InteractWithItem : MonoBehaviour
             eventSystem.clickBack();
         }
 
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            eventSystem.openBackpack();
+        }
+
         if (Physics.Raycast(transform.position, transform.forward, out hit, range, layerMask))
         {
             string tag = hit.transform.tag;

@@ -21,6 +21,9 @@ public class EventSystem : MonoBehaviour
     private GameObject commandMenu;
 
     [SerializeField]
+    private GameObject backpackMenu;
+
+    [SerializeField]
     private GameController gameController;
 
     private GameObject lastMenu;
@@ -134,6 +137,14 @@ public class EventSystem : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
         }
+        else if (actualMenu == backpackMenu)
+        {
+            backpackMenu.SetActive(false);
+            inventory.SetActive(true);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
+        }
         else if (actualMenu == commandMenu)
         {
             commandMenu.SetActive(false);
@@ -185,7 +196,41 @@ public class EventSystem : MonoBehaviour
             Time.timeScale = 0;
             Cursor.visible = true;
             Cursor.lockState = CursorLockMode.None;
+        }
+    }
 
+    public void openBackpack()
+    {
+        GameObject actualMenu = getActiveMenu();
+
+        Debug.Log(actualMenu);
+
+        if (actualMenu != inventory && actualMenu != backpackMenu)
+        {
+            return;
+        }
+
+        if (!backpackMenu.activeSelf)
+        {
+            lastMenu = inventory;
+            inventory.SetActive(false);
+            backpackMenu.SetActive(true);
+
+            //On désactive le mouvement de la caméra et on réactive la souris
+            Time.timeScale = 0;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+
+        }
+        else
+        {
+            inventory.SetActive(true);
+            backpackMenu.SetActive(false);
+
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
+            Time.timeScale = 1;
         }
     }
 
@@ -210,6 +255,10 @@ public class EventSystem : MonoBehaviour
         else if (commandMenu.activeSelf)
         {
             return commandMenu;
+        }
+        else if (backpackMenu.activeSelf)
+        {
+            return backpackMenu;
         }
         else
         {
