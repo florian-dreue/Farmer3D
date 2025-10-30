@@ -12,10 +12,10 @@ GameObject:
   - component: {fileID: 2517022697629658652}
   - component: {fileID: 4756393714399472601}
   - component: {fileID: 3316548113942141538}
-  - component: {fileID: 5081361178366166203}
-  m_Layer: 0
+  - component: {fileID: 946286001295446936}
+  m_Layer: 6
   m_Name: Backpack
-  m_TagString: Untagged
+  m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5652857284026512547}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 0.5630149, y: 0.66280746, z: 0.5015831}
   m_Center: {x: 0.00082725286, y: 0.33121276, z: 0.006680876}
---- !u!114 &5081361178366166203
+--- !u!114 &946286001295446936
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -115,8 +115,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 5652857284026512547}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3bbe1b8874ddffe48b1b8c0f8e6dcde9, type: 3}
+  m_Script: {fileID: 11500000, guid: d2a33b3e4b52aa44581f8d1c90c0a854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  globalBackpack: {fileID: 11400000, guid: c357ba4c97da9ab4d939ae9600c73646, type: 2}
-  backpack: {fileID: 0}
+  globalItem: {fileID: 11400000, guid: c357ba4c97da9ab4d939ae9600c73646, type: 2}
+  item: {fileID: 0}

@@ -33,7 +33,6 @@ public class EventSystem : MonoBehaviour
         lastMenu = inventory;
     }
 
-
     void Update()
     {
         /*
@@ -203,8 +202,6 @@ public class EventSystem : MonoBehaviour
     {
         GameObject actualMenu = getActiveMenu();
 
-        Debug.Log(actualMenu);
-
         if (actualMenu != inventory && actualMenu != backpackMenu)
         {
             return;
@@ -214,6 +211,13 @@ public class EventSystem : MonoBehaviour
         {
             lastMenu = inventory;
             inventory.SetActive(false);
+
+            TextMeshProUGUI textJourInventaire = backpackMenu.transform.Find("Top").transform.Find("TextNbJour").GetComponent<TextMeshProUGUI>();
+            textJourInventaire.text = gameController.GetDays().ToString();
+
+            TextMeshProUGUI textMoneyInventaire = backpackMenu.transform.Find("Top").transform.Find("TextArgentValue").GetComponent<TextMeshProUGUI>();
+            textMoneyInventaire.text = gameController.GetMoney().ToString();
+
             backpackMenu.SetActive(true);
 
             //On désactive le mouvement de la caméra et on réactive la souris

@@ -120,17 +120,26 @@ public class Inventory : MonoBehaviour , ISaveable
     {
         if (item.GetItemType() == ItemType.Ressource)
         {
-            ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
+            ItemInInventory itemInInventory = content.Find(element => element.itemData == item);
 
-            if (itemInInventory.count > amount)
+            if(itemInInventory != null)
             {
-                itemInInventory.count-=amount;
+                if (itemInInventory.count > amount)
+                {
+                    itemInInventory.count -= amount;
+                }
+                else
+                {
+                    content.Remove(itemInInventory);
+                }
             }
             else
             {
-                content.Remove(itemInInventory);
+                backpack.SubstractItem(item, amount);
             }
         }
+
+            
         else
         {
             toolEquipped = null;

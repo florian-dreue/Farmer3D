@@ -41,6 +41,7 @@ public class MarketButtonController : MonoBehaviour
     //Fonction pour le d�marrage de la fen�tre de vente
     public void Start()
     {
+        /*
         foreach (GameObject obj in SellDetailsList)
         {
             Destroy(obj);
@@ -59,21 +60,8 @@ public class MarketButtonController : MonoBehaviour
 
         // var listOfDetail = detailContainer.GetComponentsInChildren<SellDetail>();
         //this.listOfDetail = listOfDetail;
-        var listOfItem = inventory.GetContent();
-        /*for (int i = 0; i < listOfDetail.Length; i++)
-        {
-            if (i >= listOfItem.Count)
-            {
-                listOfDetail[i].clearDetail();
-            }
-            else
-            {
-                var nameItem = listOfItem[i].count > 1 ? LanguageManager.Instance.GetTranslation(listOfItem[i].itemData.name.ToLower()+"Plural") : LanguageManager.Instance.GetTranslation(listOfItem[i].itemData.name.ToLower());
-                listOfDetail[i].setDetail(listOfItem[i].count + " " + nameItem);
-                listOfDetail[i].setPrice(listOfItem[i].itemData.price);
-                listOfDetail[i].setQuantityInInventory(listOfItem[i].count);
-            }
-        }*/
+        List<ItemInInventory> listOfItem = inventory.GetContent();
+        List<ItemInInventory> listOfBackpack = inventory.GetBackpackContent();
 
         for (int i = 0; i < listOfItem.Count; i++)
         {
@@ -85,7 +73,21 @@ public class MarketButtonController : MonoBehaviour
             detail.setDetail(listOfItem[i].count + " " + nameItem);
             detail.setPrice(listOfItem[i].itemData.GetPrice());
             detail.setQuantityInInventory(listOfItem[i].count);
+            detail.setItemData(listOfItem[i].itemData);
         }
+
+        for (int i = 0; i < listOfBackpack.Count; i++)
+        {
+            GameObject instance = Instantiate(SellDetailPrefab, scrollViewContent);
+            SellDetailsList.Add(instance);
+            SellDetail detail = instance.GetComponent<SellDetail>();
+
+            var nameItem = listOfBackpack[i].count > 1 ? LanguageManager.Instance.GetTranslation(listOfBackpack[i].itemData.name.ToLower() + "Plural") : LanguageManager.Instance.GetTranslation(listOfBackpack[i].itemData.name.ToLower());
+            detail.setDetail(listOfBackpack[i].count + " " + nameItem);
+            detail.setPrice(listOfBackpack[i].itemData.GetPrice());
+            detail.setQuantityInInventory(listOfBackpack[i].count);
+            detail.setItemData(listOfBackpack[i].itemData);
+        }*/
     }
 
     public void Update()
@@ -113,7 +115,8 @@ public class MarketButtonController : MonoBehaviour
 
         //var listOfDetail = detailContainer.GetComponentsInChildren<SellDetail>();
         //this.listOfDetail = listOfDetail;
-        var listOfItem = inventory.GetContent();
+        List<ItemInInventory> listOfItem = inventory.GetContent();
+        List<ItemInInventory> listOfBackpack = inventory.GetBackpackContent();
         /*for (int i = 0; i < listOfDetail.Length; i++)
         {
             if (i >= listOfItem.Count)
@@ -139,6 +142,20 @@ public class MarketButtonController : MonoBehaviour
             detail.setDetail(listOfItem[i].count + " " + nameItem);
             detail.setPrice(listOfItem[i].itemData.GetPrice());
             detail.setQuantityInInventory(listOfItem[i].count);
+            detail.setItemData(listOfItem[i].itemData);
+        }
+
+        for (int i = 0; i < listOfBackpack.Count; i++)
+        {
+            GameObject instance = Instantiate(SellDetailPrefab, scrollViewContent);
+            SellDetailsList.Add(instance);
+            SellDetail detail = instance.GetComponent<SellDetail>();
+
+            var nameItem = listOfBackpack[i].count > 1 ? LanguageManager.Instance.GetTranslation(listOfBackpack[i].itemData.name.ToLower() + "Plural") : LanguageManager.Instance.GetTranslation(listOfBackpack[i].itemData.name.ToLower());
+            detail.setDetail(listOfBackpack[i].count + " " + nameItem);
+            detail.setPrice(listOfBackpack[i].itemData.GetPrice());
+            detail.setQuantityInInventory(listOfBackpack[i].count);
+            detail.setItemData(listOfBackpack[i].itemData);
         }
     }
 
@@ -146,7 +163,18 @@ public class MarketButtonController : MonoBehaviour
     public void ValidateButtonClick()
     {
         gameController.AddMoney(amount);
-        var listOfItem = inventory.GetContent();
+        List<ItemInInventory> listOfItem = inventory.GetContent();
+
+        foreach (var item in SellDetailsList)
+        {
+            SellDetail detail = item.GetComponent<SellDetail>();
+            if(detail.getQuantity() > 0)
+            {
+                inventory.SubstractItem(detail.getItemData(), detail.getQuantity());
+            }
+        }
+
+        /*
         for (int i = 0; i < SellDetailsList.Count; i++)
         {
             SellDetail detail = SellDetailsList[i].GetComponent<SellDetail>();
@@ -159,7 +187,7 @@ public class MarketButtonController : MonoBehaviour
             {
                 inventory.SubstractItem(listOfItem[i].itemData, detail.getQuantity());
             }
-        }
+        }*/
 
         //inventory.Sell();
         //On d�sactive le menu de vente et on r�active l'affichage de l'inventaire

@@ -20,5 +20,5 @@ MonoBehaviour:
   stackable: 0
   weight: 0
   price: 0
-  capacity: 0
+  capacity: 10
   maxWeight: 1000

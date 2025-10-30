@@ -88,4 +88,9 @@ public class GameController : MonoBehaviour
         return days;
     }
 
+    public int GetMoney()
+    {
+        return MainManager.Instance.GetMoney();
+    }
+
 }
