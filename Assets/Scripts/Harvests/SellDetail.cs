@@ -23,6 +23,7 @@ public class SellDetail : MonoBehaviour
     private int newPrice = 0;
     private int maxQuantity = 0;
     private int quantity = 0;
+    private ItemData itemData;
 
     public void Start()
     {
@@ -52,6 +53,11 @@ public class SellDetail : MonoBehaviour
     public void setQuantityInInventory(int quantity)
     {
         maxQuantity = quantity;
+    }
+
+    public void setItemData(ItemData itemData)
+    {
+        this.itemData = itemData;
     }
 
     //Réinitialise l'affichage
@@ -104,6 +110,11 @@ public class SellDetail : MonoBehaviour
     public int getQuantity()
     {
         return quantity;
+    }
+
+    public ItemData getItemData()
+    {
+        return itemData;
     }
 
     private void addQuantity()

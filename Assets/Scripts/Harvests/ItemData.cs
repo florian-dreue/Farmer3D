@@ -37,5 +37,6 @@ public enum ItemType
     Tool,
     Ressource,
     Seed,
-    Sappling
+    Sappling,
+    Backpack
 }

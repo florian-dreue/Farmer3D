@@ -32,6 +32,21 @@ public class Slot : MonoBehaviour
         countText.text = numberOfItem;
     }
 
+    public void SetSlot(ItemInInventory slotData)
+    {
+        this.item = slotData.itemData;
+        itemVisual.sprite = item.GetVisuel();
+        if (item.IsStackable())
+        {
+            countText.enabled = true;
+            countText.text = slotData.count.ToString();
+        }
+        else
+        {
+            countText.enabled = false;
+        }
+    }
+
     public ItemData GetItem()
     {
         return item;

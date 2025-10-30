@@ -28,6 +28,8 @@ public class Inventory : MonoBehaviour , ISaveable
     [SerializeField]
     private GameController gameController;
 
+    private BackpackData backpack;
+
     const int maxSize = 5;
     const int maxWeight = 10000;
     private int actualWeight = 0;
@@ -42,33 +44,45 @@ public class Inventory : MonoBehaviour , ISaveable
     //Fonction pour l'ajout d'un objet à l'inventaire tel qu'il soit
     public void AddItem(ItemData item)
     {
-        //Si l'objet est une ressource on l'ajoute à l'inventaire normal
-        if(item.GetItemType() == ItemType.Ressource)
+        if (HaveSpaceInInventory(item))
         {
-            //On cherche si cet objet est déjà présent dans l'inventaire
-            ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
-
-            //Si l'objet est présent et qu'il est stackable on incrémente le nombre d'objet et on met à jour le poids
-            if (itemInInventory != null && item.IsStackable())
+            //Si l'objet est une ressource on l'ajoute à l'inventaire normal
+            if(item.GetItemType() == ItemType.Ressource)
             {
-                itemInInventory.count++;
-                actualWeight += item.GetWeight();
+                //On cherche si cet objet est déjà présent dans l'inventaire
+                ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
+
+                //Si l'objet est présent et qu'il est stackable on incrémente le nombre d'objet et on met à jour le poids
+                if (itemInInventory != null && item.IsStackable())
+                {
+                    itemInInventory.count++;
+                    actualWeight += item.GetWeight();
+                }
+                //Sinon, on l'ajoute dans un nouvel espace
+                else
+                {
+                    content.Add(new ItemInInventory { itemData = item, count = 1 });
+                    actualWeight += item.GetWeight();
+                }
             }
-            //Sinon, on l'ajoute dans un nouvel espace
+            //Si c'est un sack à dos on l'ajoute au sac
+            else if( item.GetItemType() == ItemType.Backpack)
+            {
+                backpack = item as BackpackData;
+            }
+            //Sinon on ajoute l'objet dans l'inventaire de l'outil
             else
             {
-                content.Add(new ItemInInventory { itemData = item, count = 1 });
-                actualWeight += item.GetWeight();
+                toolEquipped = item;
             }
+
+            //On rafraichît le visuel de l'inventaire.
+            RefreshContent();
         }
-        //SInon on ajoute l'objet dans l'inventaire de l'outil
         else
         {
-            toolEquipped = item;
+            backpack.AddItem(item);
         }
-        
-        //On rafraichît le visuel de l'inventaire.
-        RefreshContent();
         
     }
 
@@ -88,30 +102,44 @@ public class Inventory : MonoBehaviour , ISaveable
                 content.Remove(itemInInventory);
             }
         }
-        else
+        else if(item.GetItemType() != ItemType.Backpack)
         {
             toolEquipped = null;
+        }
+        else
+        {
+            backpack = null;
         }
 
         //On rafraichît le visuel de l'inventaire.
         RefreshContent();
     }
 
+    //Fonction pour la soustraction d'un objet de l'inventaire
     public void SubstractItem(ItemData item, int amount)
     {
         if (item.GetItemType() == ItemType.Ressource)
         {
-            ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
+            ItemInInventory itemInInventory = content.Find(element => element.itemData == item);
 
-            if (itemInInventory.count > amount)
+            if(itemInInventory != null)
             {
-                itemInInventory.count-=amount;
+                if (itemInInventory.count > amount)
+                {
+                    itemInInventory.count -= amount;
+                }
+                else
+                {
+                    content.Remove(itemInInventory);
+                }
             }
             else
             {
-                content.Remove(itemInInventory);
+                backpack.SubstractItem(item, amount);
             }
         }
+
+            
         else
         {
             toolEquipped = null;
@@ -131,10 +159,12 @@ public class Inventory : MonoBehaviour , ISaveable
     public void Update()
     {
         //Si on appuie sur la touche I on affiche ou cache la barre d'inventaire
+        /*
         if (Input.GetKeyDown(KeyCode.I))
         {
             inventoryPanel.SetActive(!inventoryPanel.activeSelf);
         }
+        */
     }
 
     //Fonction permettant de mettre à jour le visuel de l'inventaire
@@ -184,7 +214,7 @@ public class Inventory : MonoBehaviour , ISaveable
         {
             ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
 
-            //Si l'objet est présnet et qu'il est stackable
+            //Si l'objet est présent et qu'il est stackable
             if (itemInInventory != null && item.IsStackable())
             {
                 //On regarde si le futur poids n'est pas au dessus de la capacité du joueur
@@ -194,20 +224,51 @@ public class Inventory : MonoBehaviour , ISaveable
                 }
                 else
                 {
-                    return false;
+                    if(backpack && backpack.HaveSpace(item))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
+            }
+            //S'il n'est pas dans l'inventaire on regarde s'il est déjà dans le sac à dos
+            else if (backpack != null && AlreadyInBackpack(item) && backpack.HaveSpace(item) )
+            {
+                return true;
             }
             //S'il n'est pas présent on regarde s'il y a assez de poids disponible et assez de slots disponible
             else
             {
-                if (actualWeight + item.GetWeight() <= maxWeight && content.Count+1 <= maxSize)
+                if (actualWeight + item.GetWeight() <= maxWeight && content.Count + 1 <= maxSize)
                 {
                     return true;
                 }
                 else
                 {
-                    return false;
+                    if (backpack && backpack.HaveSpace(item))
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
                 }
+            }
+        }
+        //Sinon on regarde si c'est un sack à dos
+        else if(item.GetItemType() == ItemType.Backpack)
+        {
+            if (!backpack)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
         //Sinon on regarde l'inventaire d'équippement
@@ -224,6 +285,75 @@ public class Inventory : MonoBehaviour , ISaveable
             }
         }
         
+    }
+
+    public bool HaveSpaceInInventory(ItemData item)
+    {
+        //Si c'est une ressource, on regarde dans l'inventaire normal
+        if (item.GetItemType() == ItemType.Ressource)
+        {
+            if (!AlreadyInBackpack(item))
+            {
+                ItemInInventory itemInInventory = content.Where(element => element.itemData == item).FirstOrDefault();
+
+                //Si l'objet est présent et qu'il est stackable
+                if (itemInInventory != null && item.IsStackable())
+                {
+                    //On regarde si le futur poids n'est pas au dessus de la capacité du joueur
+                    if (actualWeight + item.GetWeight() <= maxWeight)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                //S'il n'est pas présent on regarde s'il y a assez de poids disponible et assez de slots disponible
+                else
+                {
+                    if (actualWeight + item.GetWeight() <= maxWeight && content.Count + 1 <= maxSize)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+            }
+            else
+            {
+                return false;
+            }
+            
+        }
+        //Sinon on regarde si c'est un sack à dos
+        else if (item.GetItemType() == ItemType.Backpack)
+        {
+            if (!backpack)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        //Sinon on regarde l'inventaire d'équippement
+        else
+        {
+            //Si on as pas déjà d'outil et que le joueur peut le porter on retourne true
+            if (!toolEquipped && actualWeight + item.GetWeight() <= maxWeight)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
     }
 
     //Fonction permettant de convertir l'inventaire en objet JSON
@@ -310,6 +440,73 @@ public class Inventory : MonoBehaviour , ISaveable
     {
         toolEquipped = null;
         toolSlot.EmptySlot();
+    }
+
+    public void EmptyBackpack()
+    {
+        backpack = null;
+    }
+
+    public List<ItemInInventory> GetBackpackContent()
+    {
+        if(backpack != null)
+        {
+            return backpack.GetContent();
+        }
+        else
+        {
+            return new List<ItemInInventory>();
+        }
+    }
+
+    public int GetBackpackSize()
+    {
+        if(backpack != null)
+        {
+            return backpack.GetSize();
+        }
+        else
+        {
+            return 0;
+        }
+    }
+
+    public bool HaveBackpack()
+    {
+        return backpack != null;
+    }
+
+    public bool AlreadyInInventory(ItemData item)
+    {
+        ItemInInventory existInContent = content.Find(x => x.itemData == item);
+        if (existInContent != null)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    public bool AlreadyInBackpack(ItemData item)
+    {
+        if(backpack != null)
+        {
+            ItemInInventory existInContent = backpack.GetContent().Find(x => x.itemData == item);
+            if (existInContent != null)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        else
+        {
+            return false;
+        }
     }
 }
 
