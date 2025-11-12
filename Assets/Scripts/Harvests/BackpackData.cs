@@ -18,7 +18,7 @@ public class BackpackData : ItemData
     {
         type = ItemType.Backpack;
         stackable = false;
-        price = 0;
+        sellPrice = 0;
         weight = 0;
     }
 

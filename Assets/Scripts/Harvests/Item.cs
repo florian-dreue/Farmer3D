@@ -17,4 +17,5 @@ public class Item : MonoBehaviour
             item = Instantiate(globalItem); // clone à l’instanciation
         }
     }
+
 }

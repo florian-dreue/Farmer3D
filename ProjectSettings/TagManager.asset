@@ -17,6 +17,8 @@ TagManager:
   - ObjMenu
   - Market
   - Water
+  - LockZone
+  - Shop
   layers:
   - Default
   - TransparentFX

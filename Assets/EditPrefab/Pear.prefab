@@ -97,7 +97,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d2a33b3e4b52aa44581f8d1c90c0a854, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  globalItem: {fileID: 0}
   item: {fileID: 11400000, guid: 702779e00209b784f91344ea6eda567d, type: 2}
+  lockPrefab: {fileID: 0}
 --- !u!65 &5361559154206263970
 BoxCollider:
   m_ObjectHideFlags: 0

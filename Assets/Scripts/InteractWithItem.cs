@@ -44,7 +44,9 @@ public class InteractWithItem : MonoBehaviour
             { "Pickable", ShakeTree },
             { "TreeLand", PlantTree },
             { "Market", OpenMarket },
-            { "Water", FillCan }
+            { "Water", FillCan },
+            { "LockZone", ManageLock },
+            { "Shop", OpenShop }
         };
     }
 
@@ -139,6 +141,7 @@ public class InteractWithItem : MonoBehaviour
     {
         //Si c'est un item et qu'on à de la place, on donne la possibilité de le ramasser avec E
         ItemData itemSee = hit.transform.gameObject.GetComponent<Item>().item;
+        Item item = hit.transform.gameObject.GetComponent<Item>();
 
         if (inventory.HaveSpace(itemSee))
         {
@@ -504,6 +507,29 @@ public class InteractWithItem : MonoBehaviour
             {
                 inventory.FillTool();
             }
+        }
+    }
+
+    private void ManageLock(RaycastHit hit)
+    {
+        DisabledZone disabledZone = hit.transform.gameObject.GetComponent<DisabledZone>();
+        text.text = LanguageManager.Instance.GetTranslation("pressToUnlock");
+        ColorBox.SetActive(true);
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            disabledZone.UnlockZone();
+        }
+    }
+
+    private void OpenShop(RaycastHit hit)
+    {
+        text.text = LanguageManager.Instance.GetTranslation("pressToShop");
+        ColorBox.SetActive(true);
+
+        if (Input.GetKeyDown(KeyCode.E))
+        {
+            eventSystem.openShopMenu();
         }
     }
 }

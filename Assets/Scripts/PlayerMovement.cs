@@ -4,6 +4,7 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     public CharacterController controller;
+    Animator playerAnimator;
 
     Vector3 velocity;
 
@@ -17,6 +18,11 @@ public class PlayerMovement : MonoBehaviour
     public bool isJumping = false;
 
     public bool isGrounded;
+
+    private void Start()
+    {
+        playerAnimator = GetComponent<Animator>();
+    }
 
 
     // Update is called once per frame
@@ -37,6 +43,15 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
             isGrounded = false;
+        }
+
+        if (x >= 0.5 || z >= 0.5)
+        {
+            playerAnimator.SetBool("isWalking", true);
+        }
+        else
+        {
+            playerAnimator.SetBool("isWalking", false);
         }
 
         velocity.y += gravity * Time.deltaTime;

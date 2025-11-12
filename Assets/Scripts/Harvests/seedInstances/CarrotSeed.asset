@@ -19,8 +19,8 @@ MonoBehaviour:
   prefab: {fileID: 7666391188389969913, guid: 262d1ce9c60540242bf28980dacffcd7, type: 3}
   stackable: 0
   weight: 300
-  price: 0
-  sappling: {fileID: 0}
+  sellPrice: 0
+  buyingPrice: 1
   statesOfGrowth:
   - {fileID: 7789490251497362485, guid: 01aad485ddf270847aea52f98bfe5f0c, type: 3}
   - {fileID: 8137722427814730002, guid: 9fee32f69e554e2408e272a90225b7a7, type: 3}
