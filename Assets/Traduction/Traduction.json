@@ -86,12 +86,14 @@
     "sellInventory": "Sell selected elements for ",
     "cancel": "Cancel",
     "pressToMarket": "Press E to open the market interface",
+    "pressToShop": "Press E to open the shop interface",
     "pressToWater": "Press E to water",
     "toolToWater": "You need the watercan to water",
     "pressToFillWater": "Press E to fill with water",
     "needWater": "Fill with water for watering",
     "backpack": "backpack",
-    "backpackGender": "the backpack"
+    "backpackGender": "the backpack",
+    "pressToUnlock": "Press E to unlock the object"
   },
   "fr": {
     "welcome": "Bienvenue sur Farmer 3D!",
@@ -180,12 +182,14 @@
     "sellInventory": "Vendre les éléments électionnés pour un total de ",
     "cancel": "Annuler",
     "pressToMarket": "Appuyer sur E pour ouvrir l'interface de vente",
+    "pressToShop": "Appuyer sur E pour ouvrir l'interface d'achat",
     "pressToWater": "Appuyer sur E pour arroser",
     "toolToWater":"Il vous faut l'arrosoir pour arroser",
     "pressToFillWater":"Appuyer sur E pour remplir d'eau",
     "needWater": "Remplir d'eau pour arroser",
     "backpack": "sac à dos",
-    "backpackGender": "le sac à dos"
+    "backpackGender": "le sac à dos",
+    "pressToUnlock": "Appuyer sur E pour débloquer l'objet"
   },
   "es": {
     "welcome": "¡Bienvenido a Farmer 3D!",
@@ -274,11 +278,13 @@
     "sellInventory": "Vender articulos seleccionados por ",
     "cancel": "Cancelar",
     "pressToMarket": "Presiona E para abrir la interfaz del mercado",
+    "pressToShop": "Presiona E para abrir la interfaz del mercado",
     "pressToWater": "Traduction manquante",
     "toolToWater": "Traduction manquante",
     "pressToFillWater":"Presiona E para llenar con agua",
     "needWater": "Llenar con agua para regar",
     "backpack": "mochila",
-    "backpackGender": "la mochila"
+    "backpackGender": "la mochila",
+    "pressToUnlock": "Presiona E para desbloquear el objeto"
   }
 }

@@ -1,9 +1,12 @@
+using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 //Classe permettant de créer une variable accessible partout dans le jeu
 public class MainManager : MonoBehaviour
 {
     public static MainManager Instance;
+    private List<ItemData> itemUnlock = new List<ItemData>();
     private int money = 0;
 
     //Fonction appelé au début du cycle de vie de la class
@@ -40,6 +43,16 @@ public class MainManager : MonoBehaviour
     public void SpendMoney(int amount)
     {
         money -= amount;
+    }
+
+    public void AddItem(ItemData item)
+    {
+        itemUnlock.Add(item);
+    }
+
+    public List<ItemData> GetItemUnlock()
+    {
+        return itemUnlock;
     }
 
 }

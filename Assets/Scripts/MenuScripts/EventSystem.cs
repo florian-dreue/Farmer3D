@@ -26,6 +26,9 @@ public class EventSystem : MonoBehaviour
     [SerializeField]
     private GameController gameController;
 
+    [SerializeField]
+    private GameObject shopMenu;
+
     private GameObject lastMenu;
 
     private void Start()
@@ -136,6 +139,14 @@ public class EventSystem : MonoBehaviour
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
         }
+        else if (actualMenu == shopMenu)
+        {
+            inventory.SetActive(true);
+            shopMenu.SetActive(false);
+            Cursor.visible = false;
+            Cursor.lockState = CursorLockMode.Locked;
+            Time.timeScale = 1;
+        }
         else if (actualMenu == backpackMenu)
         {
             backpackMenu.SetActive(false);
@@ -190,6 +201,21 @@ public class EventSystem : MonoBehaviour
             lastMenu = inventory;
             inventory.SetActive(false);
             marketMenu.SetActive(true);
+
+            //On désactive le mouvement de la caméra et on réactive la souris
+            Time.timeScale = 0;
+            Cursor.visible = true;
+            Cursor.lockState = CursorLockMode.None;
+        }
+    }
+
+    public void openShopMenu()
+    {
+        if (!shopMenu.activeSelf)
+        {
+            lastMenu = inventory;
+            inventory.SetActive(false);
+            shopMenu.SetActive(true);
 
             //On désactive le mouvement de la caméra et on réactive la souris
             Time.timeScale = 0;
@@ -263,6 +289,10 @@ public class EventSystem : MonoBehaviour
         else if (backpackMenu.activeSelf)
         {
             return backpackMenu;
+        }
+        else if (shopMenu.activeSelf)
+        {
+            return shopMenu;
         }
         else
         {

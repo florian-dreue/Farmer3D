@@ -20,6 +20,7 @@ public class ItemData : ScriptableObject
     protected int weight;
     [SerializeField]
     protected int price;
+    protected bool isLock;
 
     public string GetName() {  return nameItem; }
     public string GetDescription() { return description; }
@@ -29,6 +30,16 @@ public class ItemData : ScriptableObject
     public bool IsStackable() { return stackable; }
     public int GetPrice() { return price; }
     public int GetWeight() { return weight; }
+
+    public bool LockState()
+    {
+        return isLock;
+    }
+
+    public void Lock()
+    {
+        isLock = true;
+    }
 
 }
 

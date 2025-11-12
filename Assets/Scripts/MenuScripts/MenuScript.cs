@@ -71,7 +71,7 @@ public class MenuScript : MonoBehaviour
     // Fonction pour lancer le jeu
     public void jouer() {
         // Charger la scène "SampleScene"
-        SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene("MainGame");
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1;
