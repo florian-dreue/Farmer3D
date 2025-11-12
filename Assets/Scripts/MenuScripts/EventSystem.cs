@@ -146,6 +146,8 @@ public class EventSystem : MonoBehaviour
             Cursor.visible = false;
             Cursor.lockState = CursorLockMode.Locked;
             Time.timeScale = 1;
+            TextMeshProUGUI textJourInventaire = inventory.transform.Find("Top").transform.Find("TextArgentValue").GetComponent<TextMeshProUGUI>();
+            textJourInventaire.text = MainManager.Instance.GetMoney().ToString();
         }
         else if (actualMenu == backpackMenu)
         {

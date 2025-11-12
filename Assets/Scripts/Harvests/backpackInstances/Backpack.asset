@@ -19,6 +19,7 @@ MonoBehaviour:
   prefab: {fileID: 5652857284026512547, guid: 632f2f09e99cef149830ec53f07f46fc, type: 3}
   stackable: 0
   weight: 0
-  price: 100
+  sellPrice: 0
+  buyingPrice: 1
   capacity: 10
   maxWeight: 1000

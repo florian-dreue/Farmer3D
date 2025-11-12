@@ -19,8 +19,9 @@ public class ItemData : ScriptableObject
     [SerializeField]
     protected int weight;
     [SerializeField]
-    protected int price;
-    protected bool isLock;
+    protected int sellPrice;
+    [SerializeField]
+    protected int buyingPrice;
 
     public string GetName() {  return nameItem; }
     public string GetDescription() { return description; }
@@ -28,18 +29,9 @@ public class ItemData : ScriptableObject
     public Sprite GetVisuel() { return visuel; }
     public GameObject GetPrefab() { return prefab; }
     public bool IsStackable() { return stackable; }
-    public int GetPrice() { return price; }
+    public int GetPrice() { return sellPrice; }
     public int GetWeight() { return weight; }
-
-    public bool LockState()
-    {
-        return isLock;
-    }
-
-    public void Lock()
-    {
-        isLock = true;
-    }
+    public int GetBuyingPrice() { return buyingPrice; }
 
 }
 

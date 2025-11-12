@@ -8,6 +8,6 @@ public class ToolData : ItemData
     public ToolData() {
         type = ItemType.Tool;
         stackable = false;
-        price = 0;
+        sellPrice = 0;
     }
 }

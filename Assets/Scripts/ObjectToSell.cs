@@ -61,13 +61,13 @@ public class ObjectToSell : MonoBehaviour
         }
     }
 
-    public void Initialise(ItemData itemData, int itemPrice)
+    public void Initialise(ItemData itemData)
     {
         this.itemData = itemData;
         sprite.sprite = itemData.GetVisuel();
-        objectName.text = itemData.GetName();
-        objectPrice = itemPrice;
-        price.text = itemPrice.ToString();
+        objectName.text = LanguageManager.Instance.GetTranslation(itemData.GetName().ToLower());
+        objectPrice = itemData.GetBuyingPrice();
+        price.text = itemData.GetBuyingPrice().ToString();
     }
 
     public void BuyItem()
@@ -75,6 +75,7 @@ public class ObjectToSell : MonoBehaviour
         MainManager.Instance.AddItem(itemData);
         alreadyBuy.SetActive(true);
         UnlockZone(itemData);
+        MainManager.Instance.SpendMoney(objectPrice);
     }
 
     public void UnlockZone(ItemData itemData)

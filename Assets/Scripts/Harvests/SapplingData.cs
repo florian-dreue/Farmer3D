@@ -15,7 +15,7 @@ public class SapplingData : ItemData
     {
         type = ItemType.Sappling;
         stackable = false;
-        price = 0;
+        sellPrice = 0;
     }
 
     //Fonction permettant de récupérer le nombre de jours avant la croissance

@@ -16,7 +16,7 @@ public class SeedData : ItemData
     SeedData() { 
         type = ItemType.Seed;
         stackable = false;
-        price = 0;
+        sellPrice = 0;
     }
 
     //Fonction pour récupérer le type de plante

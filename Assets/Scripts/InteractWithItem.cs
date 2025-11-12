@@ -143,12 +143,6 @@ public class InteractWithItem : MonoBehaviour
         ItemData itemSee = hit.transform.gameObject.GetComponent<Item>().item;
         Item item = hit.transform.gameObject.GetComponent<Item>();
 
-        if (!itemSee.LockState())
-        {
-            itemSee.Lock();
-        }
-        
-
         if (inventory.HaveSpace(itemSee))
         {
             text.text = LanguageManager.Instance.GetTranslation("pressToPickUp") + LanguageManager.Instance.GetTranslation(itemSee.GetName().ToLower() + "Gender");
