@@ -513,13 +513,10 @@ public class InteractWithItem : MonoBehaviour
     private void ManageLock(RaycastHit hit)
     {
         DisabledZone disabledZone = hit.transform.gameObject.GetComponent<DisabledZone>();
-        text.text = LanguageManager.Instance.GetTranslation("pressToUnlock");
+
+        text.text = LanguageManager.Instance.GetTranslation("goShopToBuy") + LanguageManager.Instance.GetTranslation(disabledZone.GetItem().GetName().ToLower() + "Gender");
         ColorBox.SetActive(true);
 
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            disabledZone.UnlockZone();
-        }
     }
 
     private void OpenShop(RaycastHit hit)

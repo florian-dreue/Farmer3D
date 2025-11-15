@@ -65,7 +65,17 @@ public class ObjectToSell : MonoBehaviour
     {
         this.itemData = itemData;
         sprite.sprite = itemData.GetVisuel();
-        objectName.text = LanguageManager.Instance.GetTranslation(itemData.GetName().ToLower());
+
+        if(itemData.GetItemType() == ItemType.Purchasable)
+        {
+            var name = itemData.GetName().Split('-');
+            objectName.text = LanguageManager.Instance.GetTranslation(name[0].ToLower())+ name[1];
+        }
+        else
+        {
+            objectName.text = LanguageManager.Instance.GetTranslation(itemData.GetName().ToLower());
+        }
+
         objectPrice = itemData.GetBuyingPrice();
         price.text = itemData.GetBuyingPrice().ToString();
     }
@@ -84,10 +94,24 @@ public class ObjectToSell : MonoBehaviour
         foreach (GameObject lockItem in listeOfLockItem)
         {
             DisabledZone script = lockItem.GetComponent<DisabledZone>();
-            //Si on as quelque chose de planté, on ajoute un jour à la culture.
+
             if (script != null && script.GetItem().GetName() == itemData.GetName())
             {
-                script.UnlockZone();
+                /*
+                if(itemData.GetItemType() == ItemType.Purchasable)
+                {
+                    var itemName = itemData.GetName().Split('-');
+
+                    if (lockItem.name.Contains(itemName[1]))
+                    {
+                        script.UnlockZone();
+                    }
+
+                }
+                else
+                {*/
+                    script.UnlockZone();
+                //}
             }
         }
     }

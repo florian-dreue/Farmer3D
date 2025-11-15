@@ -20,7 +20,17 @@ public class DisabledZone : MonoBehaviour
             spawnPos = new Vector3(transform.position.x, bottomY, transform.position.z);
         }
 
-        Instantiate(itemToGenerate.GetPrefab(), spawnPos, transform.rotation);
+        if (itemLock.GetItemType() != ItemType.Purchasable)
+        {
+            var rotation = transform.rotation;
+            if (itemLock.GetItemType() == ItemType.Seed)
+            {
+                Vector3 euler = rotation.eulerAngles;
+                euler.y += -89.417f; // tu peux mettre la valeur que tu veux
+                rotation = Quaternion.Euler(euler);
+            }
+            Instantiate(itemToGenerate.GetPrefab(), spawnPos, rotation);
+        }
 
         Destroy(gameObject);
     }

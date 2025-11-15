@@ -41,5 +41,6 @@ public enum ItemType
     Ressource,
     Seed,
     Sappling,
-    Backpack
+    Backpack,
+    Purchasable
 }
