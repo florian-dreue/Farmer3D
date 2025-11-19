@@ -42,5 +42,6 @@ public enum ItemType
     Seed,
     Sappling,
     Backpack,
-    Purchasable
+    Purchasable,
+    Destroyable
 }

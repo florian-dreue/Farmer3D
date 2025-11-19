@@ -45,8 +45,9 @@ public class InteractWithItem : MonoBehaviour
             { "TreeLand", PlantTree },
             { "Market", OpenMarket },
             { "Water", FillCan },
+            { "Shop", OpenShop },
             { "LockZone", ManageLock },
-            { "Shop", OpenShop }
+            { "DestroyZone", ManageDestroy },
         };
     }
 
@@ -514,7 +515,29 @@ public class InteractWithItem : MonoBehaviour
     {
         DisabledZone disabledZone = hit.transform.gameObject.GetComponent<DisabledZone>();
 
-        text.text = LanguageManager.Instance.GetTranslation("goShopToBuy") + LanguageManager.Instance.GetTranslation(disabledZone.GetItem().GetName().ToLower() + "Gender");
+        ItemData lockItem = disabledZone.GetItem();
+
+        if (lockItem.GetItemType() == ItemType.Purchasable)
+        {
+            string[] tradName = disabledZone.GetItem().GetName().Split('-');
+            string zoneType = tradName[0].ToLower() + "Text";
+            string zoneNumber = tradName[1];
+            text.text = LanguageManager.Instance.GetTranslation("goShopToBuy") + LanguageManager.Instance.GetTranslation(zoneType) + zoneNumber;
+        }
+        else
+        {
+            text.text = LanguageManager.Instance.GetTranslation("goShopToBuy") + LanguageManager.Instance.GetTranslation(disabledZone.GetItem().GetName().ToLower() + "Gender");
+        }
+
+        ColorBox.SetActive(true);
+
+    }
+
+    private void ManageDestroy(RaycastHit hit)
+    {
+        DestroyZone destroyZone = hit.transform.gameObject.GetComponent<DestroyZone>();
+
+        text.text = LanguageManager.Instance.GetTranslation("goShopToBuy") + LanguageManager.Instance.GetTranslation(destroyZone.GetItem().GetName().ToLower() + "Gender");
         ColorBox.SetActive(true);
 
     }
