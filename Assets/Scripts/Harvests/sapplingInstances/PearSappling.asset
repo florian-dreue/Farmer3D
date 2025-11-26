@@ -20,7 +20,7 @@ MonoBehaviour:
   stackable: 0
   weight: 400
   sellPrice: 0
-  buyingPrice: 1
+  buyingPrice: 0
   statesOfGrowth:
   - {fileID: 3967359874261137963, guid: 9547ff44201059f479a1a366983038c8, type: 3}
   - {fileID: 7418131736954827327, guid: 2f0d56d0662061540a8588b809a8afaa, type: 3}

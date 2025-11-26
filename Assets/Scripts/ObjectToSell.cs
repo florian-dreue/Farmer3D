@@ -6,29 +6,31 @@ using UnityEngine.UI;
 
 public class ObjectToSell : MonoBehaviour
 {
-    GameController gameController;
+    private GameController gameController;
 
     [SerializeField]
-    Image sprite;
+    private Image sprite;
 
     [SerializeField]
-    TextMeshProUGUI objectName;
+    private TextMeshProUGUI objectName;
 
     [SerializeField]
-    TextMeshProUGUI price;
+    private TextMeshProUGUI price;
 
     [SerializeField]
-    Button button;
+    private Button button;
 
     [SerializeField]
-    GameObject notEnoughMoney;
+    private GameObject notEnoughMoney;
 
     [SerializeField]
-    GameObject alreadyBuy;
+    private GameObject alreadyBuy;
 
+    private ItemData itemData;
 
-    ItemData itemData;
-    int objectPrice;
+    private ShopableItem shopableItem;
+
+    private int objectPrice;
 
     private void Start()
     {
@@ -38,7 +40,39 @@ public class ObjectToSell : MonoBehaviour
     private void Update()
     {
         List<ItemData> itemList = MainManager.Instance.GetItemUnlock();
-        if(itemList != null && itemList.Contains(itemData))
+
+        if (shopableItem.haveCondition)
+        {
+            switch (shopableItem.unlockCondition)
+            {
+                case UnlockCondition.Success: break;
+                case UnlockCondition.BuyingObject:
+                    ItemData itemToUnlock = shopableItem.buyingObject;
+                    if (!itemList.Contains(itemToUnlock))
+                    {
+                        alreadyBuy.SetActive(true);
+                        notEnoughMoney.SetActive(false);
+                        button.GetComponent<Image>().color = Color.red;
+                    }
+                    else
+                    {
+                        ManageVisual();
+                    }
+                    break;
+                default: break;
+            }
+        }
+        else
+        {
+            ManageVisual();
+        }
+    }
+
+    private void ManageVisual()
+    {
+        List<ItemData> itemList = MainManager.Instance.GetItemUnlock();
+
+        if (itemList != null && itemList.Contains(itemData))
         {
             alreadyBuy.SetActive(true);
             notEnoughMoney.SetActive(false);
@@ -46,7 +80,7 @@ public class ObjectToSell : MonoBehaviour
         }
         else
         {
-            if(MainManager.Instance.GetMoney() >= objectPrice)
+            if (MainManager.Instance.GetMoney() >= objectPrice)
             {
                 alreadyBuy.SetActive(false);
                 notEnoughMoney.SetActive(false);
@@ -61,11 +95,22 @@ public class ObjectToSell : MonoBehaviour
         }
     }
 
-    public void Initialise(ItemData itemData)
+    public void Initialise(ShopableItem shopableItem)
     {
-        this.itemData = itemData;
+        this.shopableItem = shopableItem;
+        this.itemData = shopableItem.itemData;
         sprite.sprite = itemData.GetVisuel();
-        objectName.text = LanguageManager.Instance.GetTranslation(itemData.GetName().ToLower());
+
+        if(itemData.GetItemType() == ItemType.Purchasable)
+        {
+            var name = itemData.GetName().Split('-');
+            objectName.text = LanguageManager.Instance.GetTranslation(name[0].ToLower()) + name[1];
+        }
+        else
+        {
+            objectName.text = LanguageManager.Instance.GetTranslation(itemData.GetName().ToLower());
+        }
+
         objectPrice = itemData.GetBuyingPrice();
         price.text = itemData.GetBuyingPrice().ToString();
     }
@@ -74,20 +119,56 @@ public class ObjectToSell : MonoBehaviour
     {
         MainManager.Instance.AddItem(itemData);
         alreadyBuy.SetActive(true);
-        UnlockZone(itemData);
+        if (itemData.GetItemType() == ItemType.Destroyable)
+        {
+            DestroyZone();
+        }
+        else
+        {
+            UnlockZone();
+        }
+        
         MainManager.Instance.SpendMoney(objectPrice);
     }
 
-    public void UnlockZone(ItemData itemData)
+    public void UnlockZone()
     {
         GameObject[] listeOfLockItem = GameObject.FindGameObjectsWithTag("LockZone");
         foreach (GameObject lockItem in listeOfLockItem)
         {
             DisabledZone script = lockItem.GetComponent<DisabledZone>();
-            //Si on as quelque chose de planté, on ajoute un jour à la culture.
+
             if (script != null && script.GetItem().GetName() == itemData.GetName())
             {
-                script.UnlockZone();
+                /*
+                if(itemData.GetItemType() == ItemType.Purchasable)
+                {
+                    var itemName = itemData.GetName().Split('-');
+
+                    if (lockItem.name.Contains(itemName[1]))
+                    {
+                        script.UnlockZone();
+                    }
+
+                }
+                else
+                {*/
+                    script.UnlockZone();
+                //}
+            }
+        }
+    }
+
+    public void DestroyZone()
+    {
+        GameObject[] listeOfDestroyItem = GameObject.FindGameObjectsWithTag("DestroyZone");
+        foreach (GameObject destroyItem in listeOfDestroyItem)
+        {
+            DestroyZone script = destroyItem.GetComponent<DestroyZone>();
+
+            if (script != null && script.GetItem().GetName() == itemData.GetName())
+            {
+                script.DestroyObject();
             }
         }
     }
