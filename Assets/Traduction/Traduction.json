@@ -93,7 +93,14 @@
     "needWater": "Fill with water for watering",
     "backpack": "backpack",
     "backpackGender": "the backpack",
-    "pressToUnlock": "Press E to unlock the object"
+    "pressToUnlock": "Press E to unlock the object",
+    "goShopToBuy": "Go to the shop to unlock ",
+    "field":"field extension number ",
+    "destroymountain":"secret way",
+    "destroymountain":"the secret way",
+    "orchard":"orchard extension number ",
+    "fieldText":"field extension number ",
+    "orchardText":"orchard extension number "
   },
   "fr": {
     "welcome": "Bienvenue sur Farmer 3D!",
@@ -189,7 +196,14 @@
     "needWater": "Remplir d'eau pour arroser",
     "backpack": "sac à dos",
     "backpackGender": "le sac à dos",
-    "pressToUnlock": "Appuyer sur E pour débloquer l'objet"
+    "pressToUnlock": "Appuyer sur E pour débloquer l'objet",
+    "goShopToBuy":"Aller à la boutique pour débloquer ",
+    "field":"extension de champs numéro ",
+    "destroymountain":"passage secret",
+    "destroymountainGender":"le passage secret",
+    "orchard":"extension de verger numéro ",
+    "fieldText":"l'extension de champs numéro ",
+    "orchardText":"l'extension de verger numéro "
   },
   "es": {
     "welcome": "¡Bienvenido a Farmer 3D!",
@@ -285,6 +299,13 @@
     "needWater": "Llenar con agua para regar",
     "backpack": "mochila",
     "backpackGender": "la mochila",
-    "pressToUnlock": "Presiona E para desbloquear el objeto"
+    "pressToUnlock": "Presiona E para desbloquear el objeto",
+    "goShopToBuy":"Ve a la tienda para desbloquear ",
+    "field":"extensión del campo número ",
+    "destroymountain":"pasaje secreto",
+    "destroymountainGender":"el pasaje secreto",
+    "orchald":"extensión del huerto número ",
+    "fieldText":"el extensión del campo número ",
+    "orchardText":"el extensión del huerto número "
   }
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class ShopController : MonoBehaviour
 {
     [SerializeField]
-    private ItemData[] listOfItem;
+    private ShopableItem[] listOfItem;
     [SerializeField]
     GameObject visualContent;
     [SerializeField]
@@ -22,7 +22,7 @@ public class ShopController : MonoBehaviour
         foreach (var item in listOfItem)
         {
             GameObject buyObject = Instantiate(objectToBuyPrefab, visualContent.transform);
-            buyObject.name = "ObjectToBuy_" + item.GetName();
+            buyObject.name = "ObjectToBuy_" + item.itemData.GetName();
 
             ObjectToSell objectToSell = buyObject.GetComponent<ObjectToSell>();
 
@@ -40,4 +40,39 @@ public class ShopController : MonoBehaviour
     }
 
 
+}
+
+[System.Serializable]
+public class ShopableItem
+{
+    public ItemData itemData;
+    public bool haveCondition;
+    public UnlockCondition unlockCondition;
+    public Success success;
+    public ItemData buyingObject;
+}
+
+public enum UnlockCondition
+{
+    Success,
+    BuyingObject
+}
+
+[CreateAssetMenu(fileName = "Success", menuName = "success/New success")]
+public class Success
+{
+    public string name;
+    public string item;
+    public Action action;
+    public int iteration;
+}
+
+public enum Action
+{
+    Buy,
+    Sell,
+    Harvest,
+    Plant,
+    Take,
+    Water
 }

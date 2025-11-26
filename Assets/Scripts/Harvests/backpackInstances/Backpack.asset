@@ -20,6 +20,6 @@ MonoBehaviour:
   stackable: 0
   weight: 0
   sellPrice: 0
-  buyingPrice: 1
+  buyingPrice: 0
   capacity: 10
   maxWeight: 1000
