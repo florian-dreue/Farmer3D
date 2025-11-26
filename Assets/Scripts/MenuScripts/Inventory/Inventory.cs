@@ -29,6 +29,7 @@ public class Inventory : MonoBehaviour , ISaveable
     private GameController gameController;
 
     private BackpackData backpack;
+    private BackpackData backpackRef;
 
     const int maxSize = 5;
     const int maxWeight = 10000;
@@ -42,8 +43,9 @@ public class Inventory : MonoBehaviour , ISaveable
     }
 
     //Fonction pour l'ajout d'un objet à l'inventaire tel qu'il soit
-    public void AddItem(ItemData item)
+    public void AddItem(Item itemPass)
     {
+        ItemData item = itemPass.item;
         if (HaveSpaceInInventory(item))
         {
             //Si l'objet est une ressource on l'ajoute à l'inventaire normal
@@ -69,6 +71,7 @@ public class Inventory : MonoBehaviour , ISaveable
             else if( item.GetItemType() == ItemType.Backpack)
             {
                 backpack = item as BackpackData;
+                backpackRef = itemPass.globalItem as BackpackData;
             }
             //Sinon on ajoute l'objet dans l'inventaire de l'outil
             else
@@ -206,7 +209,7 @@ public class Inventory : MonoBehaviour , ISaveable
         }
     }
 
-    //Fonction permettant de vérifier si on as de la place dans l'inventaire
+    //Fonction permettant de vérifier si on as de la place dans l'inventaire ou dans le sac
     public bool HaveSpace(ItemData item)
     {
         //Si c'est une ressource, on regarde dans l'inventaire normal
@@ -287,6 +290,7 @@ public class Inventory : MonoBehaviour , ISaveable
         
     }
 
+    //Fonction permettant de vérifier si on as de la place uniquement dans l'inventaire
     public bool HaveSpaceInInventory(ItemData item)
     {
         //Si c'est une ressource, on regarde dans l'inventaire normal
@@ -356,33 +360,6 @@ public class Inventory : MonoBehaviour , ISaveable
 
     }
 
-    //Fonction permettant de convertir l'inventaire en objet JSON
-    public string ToJson()
-    {
-        return JsonUtility.ToJson(this);
-    }
-
-    //Fonction permettant de charger un inventaire depuis un objet JSON
-    public void LoadFromJson(string a_Json)
-    {
-        JsonUtility.FromJsonOverwrite(a_Json, this);
-    }
-
-    //Fonction permettant de sauvegarder l'inventaire
-    public void PopulateInventory(Inventory a_SaveData)
-    {
-        a_SaveData.content = new List<ItemInInventory>(this.content);
-        a_SaveData.toolEquipped = this.toolEquipped;
-        a_SaveData.actualWeight = this.actualWeight;
-    }
-
-    //Fonction permettant de charger un inventaire
-    public void LoadFromInventory(Inventory a_SaveData)
-    {
-        this.content = new List<ItemInInventory>(a_SaveData.content);
-        this.toolEquipped = a_SaveData.toolEquipped;
-        this.actualWeight = a_SaveData.actualWeight;
-    }
 
     //Fonction permettant de vendre l'intégralité de l'inventaire
     public void Sell()
@@ -508,6 +485,74 @@ public class Inventory : MonoBehaviour , ISaveable
             return false;
         }
     }
+
+
+
+
+    //Fonction permettant de convertir l'inventaire en objet JSON
+    public string ToJson()
+    {
+        InventoryData data = new InventoryData
+        {
+            content = this.content,
+            actualWeight = this.actualWeight,
+            maxSize = maxSize,
+            maxWeight = maxWeight,
+            toolEquipped = this.toolEquipped,
+            backpack = this.backpack.ToSavable()
+        };
+        return JsonUtility.ToJson(data);
+    }
+
+    //Fonction permettant de charger un inventaire depuis un objet JSON
+    public void LoadFromJson(string a_Json)
+    {
+        InventoryData data = JsonUtility.FromJson<InventoryData>(a_Json);
+        this.content = new List<ItemInInventory>(data.content);
+        this.toolEquipped = data.toolEquipped;
+        this.actualWeight = data.actualWeight;
+        if (data.backpack != null)
+        {
+            Debug.Log("findBackpack");
+            Debug.Log($"Inventory instance: {name}, ID={GetInstanceID()}");
+            this.backpackRef = data.backpackRef;
+            if (backpackRef == null)
+            {
+                Debug.LogError("backpackRef n’est pas assigné dans l’inspecteur !");
+                return;
+            }
+            this.backpack = ScriptableObject.Instantiate(backpackRef);
+            this.backpack.LoadFromSave(data.backpack);
+        }
+    }
+
+    //Fonction permettant de sauvegarder l'inventaire
+    public void PopulateInventory(InventoryData a_SaveData)
+    {
+        a_SaveData.content = new List<ItemInInventory>(this.content);
+        a_SaveData.toolEquipped = this.toolEquipped;
+        a_SaveData.actualWeight = this.actualWeight;
+        a_SaveData.hasBackpack = this.backpack != null;
+        a_SaveData.backpack = this.backpack?.ToSavable();
+        a_SaveData.backpackRef = this.backpackRef;
+    }
+
+    //Fonction permettant de charger un inventaire
+    public void LoadFromInventory(InventoryData a_SaveData)
+    {
+        this.content = new List<ItemInInventory>(a_SaveData.content);
+        this.toolEquipped = a_SaveData.toolEquipped;
+        this.actualWeight = a_SaveData.actualWeight;
+
+        Debug.Log("backpack: " + a_SaveData.backpack);
+
+        if (a_SaveData.hasBackpack)
+        {
+            this.backpackRef = a_SaveData.backpackRef;
+            this.backpack = ScriptableObject.Instantiate(backpackRef); // clone de l’asset
+            this.backpack.LoadFromSave(a_SaveData.backpack);                 // appliquer l’état sauvegardé
+        }
+    }
 }
 
 //Objet contenant l'item et le nombre d'item stocké
@@ -521,6 +566,19 @@ public class ItemInInventory
 //Interface permettant de sauvegarder un objet
 public interface ISaveable
 {
-    void PopulateInventory(Inventory a_SaveData);
-    void LoadFromInventory(Inventory a_SaveData);
+    void PopulateInventory(InventoryData a_SaveData);
+    void LoadFromInventory(InventoryData a_SaveData);
+}
+
+[System.Serializable]
+public class InventoryData
+{
+    public List<ItemInInventory> content;
+    public ItemData toolEquipped;
+    public int actualWeight;
+    public int maxSize;
+    public int maxWeight;
+    public bool hasBackpack;
+    public BackpackSaveData backpack;
+    public BackpackData backpackRef;
 }

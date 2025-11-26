@@ -12,7 +12,8 @@ public class BackpackData : ItemData
     private int maxWeight;
     private int actualWeight = 0;
     private List<ItemInInventory> content = new List<ItemInInventory>();
-    const int maxSize = 5;
+    [SerializeField]
+    private int maxSize = 5;
 
     BackpackData()
     {
@@ -123,4 +124,35 @@ public class BackpackData : ItemData
     {
         return capacity;
     }
+
+    public BackpackSaveData ToSavable()
+    {
+        return new BackpackSaveData
+        {
+            capacity = capacity,
+            maxWeight = maxWeight,
+            actualWeight = actualWeight,
+            content = content,
+            maxSize = maxSize
+        };
+    }
+
+    public void LoadFromSave(BackpackSaveData saveData)
+    {
+        this.capacity = saveData.capacity;
+        this.maxWeight = saveData.maxWeight;
+        this.actualWeight = saveData.actualWeight;
+        this.content = new List<ItemInInventory>(saveData.content);
+        this.maxSize = saveData.maxSize;
+    }
+}
+
+[System.Serializable]
+public class BackpackSaveData
+{
+    public int capacity;
+    public int maxWeight;
+    public int actualWeight;
+    public List<ItemInInventory> content;
+    public int maxSize;
 }

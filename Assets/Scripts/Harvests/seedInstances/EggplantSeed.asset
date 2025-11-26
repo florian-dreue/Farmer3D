@@ -21,6 +21,7 @@ MonoBehaviour:
   weight: 300
   sellPrice: 0
   buyingPrice: 2
+  guid: 84557896-9555-44a8-bae4-db137f06a530
   statesOfGrowth:
   - {fileID: 9021533571043771964, guid: 3de640461f794dc44a223f1cfedb8abf, type: 3}
   - {fileID: 8331122410249767392, guid: 1263c5c5f1c53d941996ba932a56be28, type: 3}

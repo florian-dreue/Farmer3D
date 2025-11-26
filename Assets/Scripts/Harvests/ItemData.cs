@@ -23,6 +23,19 @@ public class ItemData : ScriptableObject
     [SerializeField]
     protected int buyingPrice;
 
+    /*
+    [SerializeField] private string guid;
+    public string Guid => guid;
+
+    private void OnValidate()
+    {
+        if (string.IsNullOrEmpty(guid))
+        {
+            guid = System.Guid.NewGuid().ToString();
+            UnityEditor.EditorUtility.SetDirty(this);
+        }
+    }*/
+
     public string GetName() {  return nameItem; }
     public string GetDescription() { return description; }
     public ItemType GetItemType() { return type; }

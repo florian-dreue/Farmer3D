@@ -9,16 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 961150ecff3f045469526f4df7182b93, type: 3}
-  m_Name: Sickle
+  m_Script: {fileID: 11500000, guid: 5774d819f65697647a7d771ac551045e, type: 3}
+  m_Name: field-2
   m_EditorClassIdentifier: 
-  nameItem: Sickle
+  nameItem: Field-2
   description: 
-  type: 0
-  visuel: {fileID: 21300000, guid: 7f0449a7d63b00742ad251935792304b, type: 3}
-  prefab: {fileID: 496733136156119591, guid: e36c1e16441ae40459ff8a91336aa2e8, type: 3}
+  type: 5
+  visuel: {fileID: 0}
+  prefab: {fileID: 1378103084748034230, guid: ba166ea9388aa864786b107b3f931bbb, type: 3}
   stackable: 0
-  weight: 1000
+  weight: 0
   sellPrice: 0
   buyingPrice: 0
-  guid: b66280fd-95a3-409b-918c-3b7fac3c1643
+  guid: 9a4fc913-b176-488f-a367-a530ed8e9536

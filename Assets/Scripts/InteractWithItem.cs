@@ -149,7 +149,7 @@ public class InteractWithItem : MonoBehaviour
             ColorBox.SetActive(true);
             if (Input.GetKeyDown(KeyCode.E))
             {
-                inventory.AddItem(hit.transform.gameObject.GetComponent<Item>().item);
+                inventory.AddItem(hit.transform.gameObject.GetComponent<Item>());
                 Destroy(hit.transform.gameObject);
             }
         }

@@ -7,15 +7,24 @@ public static class SaveInventoryManager
     // Fonction permettant de sauvegarder les données en JSON
     public static void SaveJsonData(IEnumerable<ISaveable> a_Saveables)
     {
-        Inventory sd = new Inventory();
+        // Créer un conteneur de données
+        InventoryData data = new InventoryData();
+
+        // Demander aux saveables de remplir ce conteneur
         foreach (var saveable in a_Saveables)
         {
-            saveable.PopulateInventory(sd);
+            saveable.PopulateInventory(data);
         }
 
-        if (FileManager.WriteToFile("Inventory.dat", sd.ToJson()))
+        SaveFile saveFile = new SaveFile();
+        saveFile.inventory = data;
+        // Sérialiser et écrire
+        string json = JsonUtility.ToJson(saveFile);
+        if (FileManager.WriteToFile("Inventory.dat", json))
         {
             Debug.Log("Save successful");
+            Debug.Log(data.content?.Count ?? 0);
+            Debug.Log(json);
         }
     }
 
@@ -24,15 +33,22 @@ public static class SaveInventoryManager
     {
         if (FileManager.LoadFromFile("Inventory.dat", out var json))
         {
-            Inventory sd = new Inventory();
-            sd.LoadFromJson(json);
+            Debug.Log("json: "+ json);
+            SaveFile saveFile = JsonUtility.FromJson<SaveFile>(json);
+            InventoryData data = saveFile.inventory;
 
             foreach (var saveable in a_Saveables)
             {
-                saveable.LoadFromInventory(sd);
+                saveable.LoadFromInventory(data);
             }
 
             Debug.Log("Load complete");
         }
     }
+}
+
+[System.Serializable]
+public class SaveFile
+{
+    public InventoryData inventory;
 }
