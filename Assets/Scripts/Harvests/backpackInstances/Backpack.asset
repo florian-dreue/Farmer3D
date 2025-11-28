@@ -21,5 +21,8 @@ MonoBehaviour:
   weight: 0
   sellPrice: 0
   buyingPrice: 0
+  guid: dbc32000-5f0a-49e5-8c79-fc5de7c401ab
   capacity: 10
   maxWeight: 1000
+  maxSize: 5
+  asset: {fileID: 11400000}

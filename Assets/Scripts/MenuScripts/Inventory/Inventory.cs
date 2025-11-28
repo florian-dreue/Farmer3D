@@ -38,8 +38,9 @@ public class Inventory : MonoBehaviour , ISaveable
     //Fonction pour l'initialisation de l'inventaire
     public void Start()
     {
-        SaveInventoryManager.LoadJsonData(new List<ISaveable> { this });
-        RefreshContent();
+        /*
+        SaveInventoryManager.LoadJsonData(this);
+        RefreshContent();*/
     }
 
     //Fonction pour l'ajout d'un objet à l'inventaire tel qu'il soit

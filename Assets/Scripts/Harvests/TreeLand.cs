@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Classe pour les zones arboricoles
-public class TreeLand : MonoBehaviour
+public class TreeLand : MonoBehaviour, TLSaveable
 {
     private int state = 0;
     private int dayTracker = 0;
@@ -12,6 +12,18 @@ public class TreeLand : MonoBehaviour
     private SapplingData sappling;
     [SerializeField]
     private TreeDirt dirt;
+
+    [SerializeField] private string uniqueId;
+    public string UniqueId => uniqueId;
+
+    private void OnValidate()
+    {
+        Transform current = transform;
+        string path = current.name;
+
+        uniqueId = path;
+    }
+
 
     //Fonction pour ajouter un jour
     public void AddDay()
@@ -96,4 +108,48 @@ public class TreeLand : MonoBehaviour
     //Fonction permettant de récupérer le nombre de jours depuis la plantation
     public int daySincePlantation() {  return dayTracker; }
 
+    public void PopulateTreeLand(TreeLandData a_SaveData)
+    {
+        a_SaveData.uniqueId = this.uniqueId;
+        a_SaveData.state = this.state;
+        a_SaveData.dayTracker = this.dayTracker;
+        a_SaveData.effectiveDays = this.effectiveDays;
+        a_SaveData.Planted = this.isPlanted();
+        a_SaveData.Pickable = this.isPickable();
+        a_SaveData.dirtWatered = this.dirt.getWatered();
+        a_SaveData.sappling = this.sappling;
+    }
+
+    public void LoadFromTreeLand(TreeLandData a_SaveData)
+    {
+        this.state = a_SaveData.state;
+        this.dayTracker = a_SaveData.dayTracker;
+        this.effectiveDays = a_SaveData.effectiveDays;
+        this.Planted = a_SaveData.Planted;
+        this.Pickable = a_SaveData.Pickable;
+        this.sappling = a_SaveData.sappling;
+        if (a_SaveData.dirtWatered)
+        {
+            this.dirt.isGettingWatered();
+        }
+    }
+}
+
+public interface TLSaveable
+{
+    void PopulateTreeLand(TreeLandData a_SaveData);
+    void LoadFromTreeLand(TreeLandData a_SaveData);
+}
+
+[System.Serializable]
+public class TreeLandData
+{
+    public string uniqueId;
+    public int state;
+    public int dayTracker;
+    public int effectiveDays;
+    public bool Planted;
+    public bool Pickable;
+    public SapplingData sappling;
+    public bool dirtWatered;
 }

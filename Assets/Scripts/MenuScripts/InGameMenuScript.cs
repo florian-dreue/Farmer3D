@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -53,10 +54,31 @@ public class InGameMenuScript : MonoBehaviour
     public void onClickSave()
     {
         Inventory inventaire = FindAnyObjectByType<Inventory>();
-        SaveInventoryManager.SaveJsonData(new List<ISaveable> { inventaire });
+        IEnumerable<HSaveable> saveables = FindObjectsOfType<MonoBehaviour>().OfType<HSaveable>();
+        IEnumerable<TLSaveable> treeLandSave = FindObjectsOfType<MonoBehaviour>().OfType<TLSaveable>();
+        List<HarvestableData> harvestableDatas = new List<HarvestableData>();
+        List<TreeLandData> treeLandDatas = new List<TreeLandData>();
+
+        foreach (var item in saveables)
+        {
+            HarvestableData data = new HarvestableData();
+            item.PopulateHarvestable(data);
+            harvestableDatas.Add(data);
+        }
+
+        foreach (var item in treeLandSave)
+        {
+            TreeLandData data = new TreeLandData();
+            item.PopulateTreeLand(data);
+            treeLandDatas.Add(data);
+        }
+
+        SaveInventoryManager.SaveJsonData(inventaire, harvestableDatas);
         saveText.text = LanguageManager.Instance.GetTranslation("saveSuccess");
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");
+
+
         PlayerPrefs.SetFloat("playerX", player.transform.position.x);
         PlayerPrefs.SetFloat("playerY", player.transform.position.y);
         PlayerPrefs.SetFloat("playerZ", player.transform.position.z);

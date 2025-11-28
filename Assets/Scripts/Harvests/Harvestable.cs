@@ -1,7 +1,9 @@
+using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 //Classe contenant chaque terrain cultivable
-public class Harvestable : MonoBehaviour
+public class Harvestable : MonoBehaviour, HSaveable
 {
     private int state;
     private int dayTracker = 0;
@@ -12,6 +14,28 @@ public class Harvestable : MonoBehaviour
     [SerializeField]
     private Dirt dirt;
     private SeedData seedData;
+
+    [SerializeField] private string uniqueId;
+    public string UniqueId => uniqueId;
+
+    private void OnValidate()
+    {
+            Transform current = transform;
+            string path = current.name;
+
+            // Remonter toute la hiérarchie jusqu'à la racine
+            while (current.parent != null)
+            {
+                current = current.parent;
+                path = current.name + "/" + path;
+                if (current.name.Contains("ZoneCultivable"))
+                {
+                    break;
+                }
+            }
+
+            uniqueId = path;
+    }
 
     //Fonction pour ajouter un jour à la plantation
     public void AddDay()
@@ -119,4 +143,56 @@ public class Harvestable : MonoBehaviour
     {
         return dayTracker;
     }
+
+    public void PopulateHarvestable(HarvestableData a_SaveData)
+    {
+        a_SaveData.uniqueId = this.uniqueId;
+        a_SaveData.state = this.state;
+        a_SaveData.dayTracker = this.dayTracker;
+        a_SaveData.effectiveDays = this.effectiveDays;
+        a_SaveData.isPlanted = this.isPlanted;
+        a_SaveData.isHarvestable = this.isHarvestable;
+        a_SaveData.dirtPlowed = this.dirt.getPlowed();
+        a_SaveData.dirtWatered = this.dirt.getWatered();
+        a_SaveData.seedData = this.seedData;
+    }
+
+    public void LoadFromHarvestable(HarvestableData a_SaveData)
+    {
+        this.state = a_SaveData.state;
+        this.dayTracker = a_SaveData.dayTracker;
+        this.effectiveDays = a_SaveData.effectiveDays;
+        this.isPlanted = a_SaveData.isPlanted;
+        this.isHarvestable = a_SaveData.isHarvestable;
+        this.seedData = a_SaveData.seedData;
+        Debug.Log("uniqueId: "+UniqueId+" plowed = "+ a_SaveData.dirtPlowed);
+        if (a_SaveData.dirtPlowed)
+        {
+            this.dirt.isGettingPlowed();
+        }
+        if(a_SaveData.dirtWatered)
+        {
+            this.dirt.isGettingWatered();
+        }
+    }
+}
+
+public interface HSaveable
+{
+    void PopulateHarvestable(HarvestableData a_SaveData);
+    void LoadFromHarvestable(HarvestableData a_SaveData);
+}
+
+[System.Serializable]
+public class HarvestableData
+{
+    public string uniqueId;
+    public int state;
+    public int dayTracker;
+    public int effectiveDays;
+    public bool isPlanted;
+    public bool isHarvestable;
+    public bool dirtPlowed;
+    public bool dirtWatered;
+    public SeedData seedData;
 }
