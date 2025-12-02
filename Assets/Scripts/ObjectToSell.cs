@@ -140,21 +140,7 @@ public class ObjectToSell : MonoBehaviour
 
             if (script != null && script.GetItem().GetName() == itemData.GetName())
             {
-                /*
-                if(itemData.GetItemType() == ItemType.Purchasable)
-                {
-                    var itemName = itemData.GetName().Split('-');
-
-                    if (lockItem.name.Contains(itemName[1]))
-                    {
-                        script.UnlockZone();
-                    }
-
-                }
-                else
-                {*/
-                    script.UnlockZone();
-                //}
+                script.UnlockZone();
             }
         }
     }

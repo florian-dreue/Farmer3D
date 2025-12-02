@@ -54,26 +54,26 @@ public class InGameMenuScript : MonoBehaviour
     public void onClickSave()
     {
         Inventory inventaire = FindAnyObjectByType<Inventory>();
-        IEnumerable<HSaveable> saveables = FindObjectsOfType<MonoBehaviour>().OfType<HSaveable>();
-        IEnumerable<TLSaveable> treeLandSave = FindObjectsOfType<MonoBehaviour>().OfType<TLSaveable>();
-        List<HarvestableData> harvestableDatas = new List<HarvestableData>();
-        List<TreeLandData> treeLandDatas = new List<TreeLandData>();
+        IEnumerable<Harvestable> saveables = FindObjectsOfType<MonoBehaviour>().OfType<Harvestable>();
+        IEnumerable<TreeLand> treeLandSave = FindObjectsOfType<MonoBehaviour>().OfType<TreeLand>();
+        List<HarvestableSaveData> harvestableDatas = new List<HarvestableSaveData>();
+        List<TreeLandSaveData> treeLandDatas = new List<TreeLandSaveData>();
 
         foreach (var item in saveables)
         {
-            HarvestableData data = new HarvestableData();
+            HarvestableSaveData data = new HarvestableSaveData();
             item.PopulateHarvestable(data);
             harvestableDatas.Add(data);
         }
 
         foreach (var item in treeLandSave)
         {
-            TreeLandData data = new TreeLandData();
+            TreeLandSaveData data = new TreeLandSaveData();
             item.PopulateTreeLand(data);
             treeLandDatas.Add(data);
         }
 
-        SaveInventoryManager.SaveJsonData(inventaire, harvestableDatas);
+        SaveInventoryManager.SaveJsonData(inventaire, harvestableDatas, treeLandDatas);
         saveText.text = LanguageManager.Instance.GetTranslation("saveSuccess");
 
         GameObject player = GameObject.FindGameObjectWithTag("Player");

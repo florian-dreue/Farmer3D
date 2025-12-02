@@ -1,7 +1,7 @@
 using UnityEngine;
 
 // Classe pour les zones arboricoles
-public class TreeLand : MonoBehaviour, TLSaveable
+public class TreeLand : MonoBehaviour
 {
     private int state = 0;
     private int dayTracker = 0;
@@ -108,41 +108,43 @@ public class TreeLand : MonoBehaviour, TLSaveable
     //Fonction permettant de récupérer le nombre de jours depuis la plantation
     public int daySincePlantation() {  return dayTracker; }
 
-    public void PopulateTreeLand(TreeLandData a_SaveData)
+    public void PopulateTreeLand(TreeLandSaveData saveContainer)
     {
-        a_SaveData.uniqueId = this.uniqueId;
-        a_SaveData.state = this.state;
-        a_SaveData.dayTracker = this.dayTracker;
-        a_SaveData.effectiveDays = this.effectiveDays;
-        a_SaveData.Planted = this.isPlanted();
-        a_SaveData.Pickable = this.isPickable();
-        a_SaveData.dirtWatered = this.dirt.getWatered();
-        a_SaveData.sappling = this.sappling;
+        saveContainer.uniqueId = this.uniqueId;
+        saveContainer.state = this.state;
+        saveContainer.dayTracker = this.dayTracker;
+        saveContainer.effectiveDays = this.effectiveDays;
+        saveContainer.Planted = this.isPlanted();
+        saveContainer.Pickable = this.isPickable();
+        saveContainer.dirtWatered = this.dirt.getWatered();
+        saveContainer.sappling = this.sappling;
     }
 
-    public void LoadFromTreeLand(TreeLandData a_SaveData)
+    public void LoadFromTreeLand(TreeLandSaveData treeLandSaved)
     {
-        this.state = a_SaveData.state;
-        this.dayTracker = a_SaveData.dayTracker;
-        this.effectiveDays = a_SaveData.effectiveDays;
-        this.Planted = a_SaveData.Planted;
-        this.Pickable = a_SaveData.Pickable;
-        this.sappling = a_SaveData.sappling;
-        if (a_SaveData.dirtWatered)
+        this.state = treeLandSaved.state;
+        this.dayTracker = treeLandSaved.dayTracker;
+        this.effectiveDays = treeLandSaved.effectiveDays;
+        this.Planted = treeLandSaved.Planted;
+        this.Pickable = treeLandSaved.Pickable;
+        this.sappling = treeLandSaved.sappling;
+
+        if (treeLandSaved.dirtWatered)
         {
             this.dirt.isGettingWatered();
+        }
+        if(sappling != null)
+        {
+            if (effectiveDays % sappling.getDayBeforeGrowth() == 0)
+            {
+                actualPrefab = Instantiate(sappling.getStatesOfGrowth(state-1), gameObject.transform);
+            }
         }
     }
 }
 
-public interface TLSaveable
-{
-    void PopulateTreeLand(TreeLandData a_SaveData);
-    void LoadFromTreeLand(TreeLandData a_SaveData);
-}
-
 [System.Serializable]
-public class TreeLandData
+public class TreeLandSaveData
 {
     public string uniqueId;
     public int state;

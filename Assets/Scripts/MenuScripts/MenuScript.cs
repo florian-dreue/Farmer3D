@@ -25,6 +25,15 @@ public class MenuScript : MonoBehaviour
     private Button btnLanguage;
 
     [SerializeField]
+    private Button btnEng;
+
+    [SerializeField]
+    private Button btnFr;
+
+    [SerializeField]
+    private Button btnEsp;
+
+    [SerializeField]
     private TextMeshProUGUI welcomeText;
 
     [SerializeField]
@@ -95,7 +104,7 @@ public class MenuScript : MonoBehaviour
         if (memoCommandes != null){
             memoCommandes.SetActive(false);
         }
-        //Cacher les commandes
+        //Cacher les langues
         if (menuLanguage != null)
         {
             menuLanguage.SetActive(false);
@@ -103,6 +112,21 @@ public class MenuScript : MonoBehaviour
         //Afficher le menu
         if (menuPrincipal != null){
             menuPrincipal.SetActive(true);
+        }
+    }
+
+    //Fonction pour retourner aux commandes
+    public void retourCommandes()
+    {
+        //Afficher les commandes
+        if (memoCommandes != null)
+        {
+            memoCommandes.SetActive(true);
+        }
+        //Cacher les langues
+        if (menuLanguage != null)
+        {
+            menuLanguage.SetActive(false);
         }
     }
 
@@ -182,6 +206,28 @@ public class MenuScript : MonoBehaviour
         else
         {
             print("Pas de LanguageManager");
+        }
+
+        Image btnImageEng = btnEng.GetComponent<Image>();
+        Image btnImageFr = btnFr.GetComponent<Image>();
+        Image btnImageEsp = btnEsp.GetComponent<Image>();
+
+        btnImageEng.color = Color.white;
+        btnImageFr.color = Color.white;
+        btnImageEsp.color = Color.white;
+
+        switch (LanguageManager.Instance.GetLanguage())
+        {
+            case "en":
+                btnImageEng.color = Color.green;
+                break;
+            case "fr":
+                btnImageFr.color = Color.green;
+                break;
+            case "es":
+                btnImageEsp.color = Color.green;
+                break;
+            default: break;
         }
     }
 }

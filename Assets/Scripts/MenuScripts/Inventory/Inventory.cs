@@ -7,7 +7,7 @@ using System;
 //Inventaire du joueur séparé en deux partis:
 //La partie inventaire unique pour un outil ou un sac de graines
 //La partie inventaire classique pour les récoltes
-public class Inventory : MonoBehaviour , ISaveable
+public class Inventory : MonoBehaviour
 {
     private List<ItemInInventory> content = new List<ItemInInventory>();
 
@@ -15,6 +15,7 @@ public class Inventory : MonoBehaviour , ISaveable
     private GameObject inventoryPanel;
 
     private ItemData toolEquipped;
+    public ItemData toolRef;
 
     [SerializeField]
     private ToolSlot toolSlot;
@@ -29,7 +30,7 @@ public class Inventory : MonoBehaviour , ISaveable
     private GameController gameController;
 
     private BackpackData backpack;
-    private BackpackData backpackRef;
+    public BackpackData backpackRef;
 
     const int maxSize = 5;
     const int maxWeight = 10000;
@@ -77,7 +78,17 @@ public class Inventory : MonoBehaviour , ISaveable
             //Sinon on ajoute l'objet dans l'inventaire de l'outil
             else
             {
-                toolEquipped = item;
+                var fillable = item as FillableData;
+                if(fillable != null)
+                {
+                    toolEquipped = item;
+                    toolRef = itemPass.globalItem as FillableData;
+                }
+                else
+                {
+                    toolEquipped = itemPass.globalItem;
+                }
+                
             }
 
             //On rafraichît le visuel de l'inventaire.
@@ -417,6 +428,7 @@ public class Inventory : MonoBehaviour , ISaveable
     public void EmptyTool()
     {
         toolEquipped = null;
+        toolRef = null;
         toolSlot.EmptySlot();
     }
 
@@ -489,69 +501,58 @@ public class Inventory : MonoBehaviour , ISaveable
 
 
 
-
-    //Fonction permettant de convertir l'inventaire en objet JSON
-    public string ToJson()
+    //Fonction permettant de sauvegarder l'inventaire
+    public void PopulateInventory(InventorySaveData saveContainer)
     {
-        InventoryData data = new InventoryData
-        {
-            content = this.content,
-            actualWeight = this.actualWeight,
-            maxSize = maxSize,
-            maxWeight = maxWeight,
-            toolEquipped = this.toolEquipped,
-            backpack = this.backpack.ToSavable()
-        };
-        return JsonUtility.ToJson(data);
-    }
+        saveContainer.content = this.content;
+        saveContainer.actualWeight = this.actualWeight;
+        saveContainer.maxSize = maxSize;
+        saveContainer.maxWeight = maxWeight;
+        saveContainer.hasBackpack = this.backpack != null;
+        saveContainer.backpack = this.backpack?.ToSavable();
+        saveContainer.backpackRef = this.backpackRef;
 
-    //Fonction permettant de charger un inventaire depuis un objet JSON
-    public void LoadFromJson(string a_Json)
-    {
-        InventoryData data = JsonUtility.FromJson<InventoryData>(a_Json);
-        this.content = new List<ItemInInventory>(data.content);
-        this.toolEquipped = data.toolEquipped;
-        this.actualWeight = data.actualWeight;
-        if (data.backpack != null)
+        var fillable = toolEquipped as FillableData;
+
+        Debug.Log("fillable: " + fillable);
+
+        if (fillable != null)
         {
-            Debug.Log("findBackpack");
-            Debug.Log($"Inventory instance: {name}, ID={GetInstanceID()}");
-            this.backpackRef = data.backpackRef;
-            if (backpackRef == null)
-            {
-                Debug.LogError("backpackRef n’est pas assigné dans l’inspecteur !");
-                return;
-            }
-            this.backpack = ScriptableObject.Instantiate(backpackRef);
-            this.backpack.LoadFromSave(data.backpack);
+            saveContainer.toolEquipped = this.toolRef;
+            saveContainer.fillQuantity = fillable.GetFilling();
+        }
+        else
+        {
+            saveContainer.toolEquipped = this.toolEquipped;
         }
     }
 
-    //Fonction permettant de sauvegarder l'inventaire
-    public void PopulateInventory(InventoryData a_SaveData)
-    {
-        a_SaveData.content = new List<ItemInInventory>(this.content);
-        a_SaveData.toolEquipped = this.toolEquipped;
-        a_SaveData.actualWeight = this.actualWeight;
-        a_SaveData.hasBackpack = this.backpack != null;
-        a_SaveData.backpack = this.backpack?.ToSavable();
-        a_SaveData.backpackRef = this.backpackRef;
-    }
-
     //Fonction permettant de charger un inventaire
-    public void LoadFromInventory(InventoryData a_SaveData)
+    public void LoadFromInventory(InventorySaveData inventorySaved)
     {
-        this.content = new List<ItemInInventory>(a_SaveData.content);
-        this.toolEquipped = a_SaveData.toolEquipped;
-        this.actualWeight = a_SaveData.actualWeight;
+        this.content = inventorySaved.content;
+        this.actualWeight = inventorySaved.actualWeight;
 
-        Debug.Log("backpack: " + a_SaveData.backpack);
-
-        if (a_SaveData.hasBackpack)
+        if (inventorySaved.hasBackpack)
         {
-            this.backpackRef = a_SaveData.backpackRef;
+            this.backpackRef = inventorySaved.backpackRef;
             this.backpack = ScriptableObject.Instantiate(backpackRef); // clone de l’asset
-            this.backpack.LoadFromSave(a_SaveData.backpack);                 // appliquer l’état sauvegardé
+            this.backpack.LoadFromSave(inventorySaved.backpack);                 // appliquer l’état sauvegardé
+        }
+
+        var fillable = inventorySaved.toolEquipped as FillableData;
+
+        if (fillable != null)
+        {
+            this.toolEquipped = ScriptableObject.Instantiate(inventorySaved.toolEquipped) as FillableData;
+            this.toolRef = inventorySaved.toolEquipped;
+            FillableData insatnciedFillable = toolEquipped as FillableData;
+            insatnciedFillable.FillTool(inventorySaved.fillQuantity);
+            toolSlot.updateItem(insatnciedFillable);
+        }
+        else
+        {
+            this.toolEquipped = inventorySaved.toolEquipped;
         }
     }
 }
@@ -564,18 +565,12 @@ public class ItemInInventory
     public int count;
 }
 
-//Interface permettant de sauvegarder un objet
-public interface ISaveable
-{
-    void PopulateInventory(InventoryData a_SaveData);
-    void LoadFromInventory(InventoryData a_SaveData);
-}
-
 [System.Serializable]
-public class InventoryData
+public class InventorySaveData
 {
     public List<ItemInInventory> content;
     public ItemData toolEquipped;
+    public int fillQuantity;
     public int actualWeight;
     public int maxSize;
     public int maxWeight;

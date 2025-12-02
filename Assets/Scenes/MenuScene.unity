@@ -1666,7 +1666,7 @@ GameObject:
   - component: {fileID: 705393575}
   - component: {fileID: 705393574}
   m_Layer: 5
-  m_Name: ChangeLanguage
+  m_Name: textChangeLanguage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1778,14 +1778,14 @@ RectTransform:
   m_GameObject: {fileID: 705393573}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.37985998, y: 0.37985998, z: 0.37985998}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 1092584357}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 1}
   m_AnchorMax: {x: 0.5, y: 1}
-  m_AnchoredPosition: {x: 5.888611, y: -41.025024}
+  m_AnchoredPosition: {x: 15.502, y: -108}
   m_SizeDelta: {x: 515.004, y: 179.57599}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &716659931
@@ -2412,10 +2412,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 800, y: 600}
+  m_ReferenceResolution: {x: 1920, y: 1080}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -2518,7 +2518,7 @@ GameObject:
   - component: {fileID: 1152348218}
   - component: {fileID: 1152348217}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: textCommandes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3563,7 +3563,7 @@ RectTransform:
   m_GameObject: {fileID: 1713299077}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8662, y: 1.8662, z: 1.8662}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 716659932}
@@ -3571,7 +3571,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -98, y: -33}
+  m_AnchoredPosition: {x: -149, y: -33}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1713299079
@@ -3866,7 +3866,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1821704765}
         m_TargetAssemblyTypeName: MenuScript, Assembly-CSharp
-        m_MethodName: retourMenu
+        m_MethodName: retourCommandes
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3923,7 +3923,7 @@ RectTransform:
   m_GameObject: {fileID: 1785314287}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.7089, y: 0.7089, z: 0.7089}
+  m_LocalScale: {x: 1.8662, y: 1.8662, z: 1.8662}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 563137866}
@@ -3931,7 +3931,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 101.37213, y: -32.288208}
+  m_AnchoredPosition: {x: 266.8663, y: -85}
   m_SizeDelta: {x: 221.8689, y: 49.606995}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1821704761
@@ -4021,6 +4021,9 @@ MonoBehaviour:
   btnRetourMenu: {fileID: 79022437}
   btnRetourMenuLanguage: {fileID: 1785314288}
   btnLanguage: {fileID: 2062413580}
+  btnEng: {fileID: 1971203911}
+  btnFr: {fileID: 1918581343}
+  btnEsp: {fileID: 1713299079}
   welcomeText: {fileID: 1842587115}
   memoCommandesText: {fileID: 1152348217}
   changeLanguage: {fileID: 705393574}
@@ -4329,15 +4332,15 @@ RectTransform:
   m_GameObject: {fileID: 1918581341}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8662, y: 1.8662, z: 1.8662}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 322997011}
   m_Father: {fileID: 946605016}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 1}
-  m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 96, y: -33}
+  m_AnchorMin: {x: 0, y: 0.5}
+  m_AnchorMax: {x: 0, y: 0.5}
+  m_AnchoredPosition: {x: 153, y: 39}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1918581343
@@ -4462,7 +4465,7 @@ RectTransform:
   m_GameObject: {fileID: 1971203909}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.8662, y: 1.8662, z: 1.8662}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 230477118}

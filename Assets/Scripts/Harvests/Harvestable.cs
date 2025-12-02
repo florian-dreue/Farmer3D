@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 //Classe contenant chaque terrain cultivable
-public class Harvestable : MonoBehaviour, HSaveable
+public class Harvestable : MonoBehaviour
 {
     private int state;
     private int dayTracker = 0;
@@ -144,47 +144,52 @@ public class Harvestable : MonoBehaviour, HSaveable
         return dayTracker;
     }
 
-    public void PopulateHarvestable(HarvestableData a_SaveData)
+    public void PopulateHarvestable(HarvestableSaveData saveContainer)
     {
-        a_SaveData.uniqueId = this.uniqueId;
-        a_SaveData.state = this.state;
-        a_SaveData.dayTracker = this.dayTracker;
-        a_SaveData.effectiveDays = this.effectiveDays;
-        a_SaveData.isPlanted = this.isPlanted;
-        a_SaveData.isHarvestable = this.isHarvestable;
-        a_SaveData.dirtPlowed = this.dirt.getPlowed();
-        a_SaveData.dirtWatered = this.dirt.getWatered();
-        a_SaveData.seedData = this.seedData;
+        saveContainer.uniqueId = this.uniqueId;
+        saveContainer.state = this.state;
+        saveContainer.dayTracker = this.dayTracker;
+        saveContainer.effectiveDays = this.effectiveDays;
+        saveContainer.isPlanted = this.isPlanted;
+        saveContainer.isHarvestable = this.isHarvestable;
+        saveContainer.dirtPlowed = this.dirt.getPlowed();
+        saveContainer.dirtWatered = this.dirt.getWatered();
+        saveContainer.seedData = this.seedData;
     }
 
-    public void LoadFromHarvestable(HarvestableData a_SaveData)
+    public void LoadFromHarvestable(HarvestableSaveData harvestableSaved)
     {
-        this.state = a_SaveData.state;
-        this.dayTracker = a_SaveData.dayTracker;
-        this.effectiveDays = a_SaveData.effectiveDays;
-        this.isPlanted = a_SaveData.isPlanted;
-        this.isHarvestable = a_SaveData.isHarvestable;
-        this.seedData = a_SaveData.seedData;
-        Debug.Log("uniqueId: "+UniqueId+" plowed = "+ a_SaveData.dirtPlowed);
-        if (a_SaveData.dirtPlowed)
+        this.state = harvestableSaved.state;
+        this.dayTracker = harvestableSaved.dayTracker;
+        this.effectiveDays = harvestableSaved.effectiveDays;
+        this.isPlanted = harvestableSaved.isPlanted;
+        this.isHarvestable = harvestableSaved.isHarvestable;
+        this.seedData = harvestableSaved.seedData;
+        if (harvestableSaved.dirtPlowed)
         {
             this.dirt.isGettingPlowed();
         }
-        if(a_SaveData.dirtWatered)
+        if(harvestableSaved.dirtWatered)
         {
             this.dirt.isGettingWatered();
+        }
+
+        if(seedData != null)
+        {
+            if (effectiveDays % seedData.GetDayBeforeGrowth() == 0)
+            {
+                if (state != 0)
+                {
+                    //On initialise le modèle correspondant à l'étape actuelle
+                    actualPrefab = Instantiate(seedData.GetStatesOfGrowth(state-1), gameObject.transform);
+                }
+            }
         }
     }
 }
 
-public interface HSaveable
-{
-    void PopulateHarvestable(HarvestableData a_SaveData);
-    void LoadFromHarvestable(HarvestableData a_SaveData);
-}
-
 [System.Serializable]
-public class HarvestableData
+public class HarvestableSaveData
 {
     public string uniqueId;
     public int state;
