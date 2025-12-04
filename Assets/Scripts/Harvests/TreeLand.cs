@@ -13,6 +13,18 @@ public class TreeLand : MonoBehaviour
     [SerializeField]
     private TreeDirt dirt;
 
+    [SerializeField] private string uniqueId;
+    public string UniqueId => uniqueId;
+
+    private void OnValidate()
+    {
+        Transform current = transform;
+        string path = current.name;
+
+        uniqueId = path;
+    }
+
+
     //Fonction pour ajouter un jour
     public void AddDay()
     {
@@ -96,4 +108,50 @@ public class TreeLand : MonoBehaviour
     //Fonction permettant de récupérer le nombre de jours depuis la plantation
     public int daySincePlantation() {  return dayTracker; }
 
+    public void PopulateTreeLand(TreeLandSaveData saveContainer)
+    {
+        saveContainer.uniqueId = this.uniqueId;
+        saveContainer.state = this.state;
+        saveContainer.dayTracker = this.dayTracker;
+        saveContainer.effectiveDays = this.effectiveDays;
+        saveContainer.Planted = this.isPlanted();
+        saveContainer.Pickable = this.isPickable();
+        saveContainer.dirtWatered = this.dirt.getWatered();
+        saveContainer.sappling = this.sappling;
+    }
+
+    public void LoadFromTreeLand(TreeLandSaveData treeLandSaved)
+    {
+        this.state = treeLandSaved.state;
+        this.dayTracker = treeLandSaved.dayTracker;
+        this.effectiveDays = treeLandSaved.effectiveDays;
+        this.Planted = treeLandSaved.Planted;
+        this.Pickable = treeLandSaved.Pickable;
+        this.sappling = treeLandSaved.sappling;
+
+        if (treeLandSaved.dirtWatered)
+        {
+            this.dirt.isGettingWatered();
+        }
+        if(sappling != null)
+        {
+            if (effectiveDays % sappling.getDayBeforeGrowth() == 0)
+            {
+                actualPrefab = Instantiate(sappling.getStatesOfGrowth(state-1), gameObject.transform);
+            }
+        }
+    }
+}
+
+[System.Serializable]
+public class TreeLandSaveData
+{
+    public string uniqueId;
+    public int state;
+    public int dayTracker;
+    public int effectiveDays;
+    public bool Planted;
+    public bool Pickable;
+    public SapplingData sappling;
+    public bool dirtWatered;
 }

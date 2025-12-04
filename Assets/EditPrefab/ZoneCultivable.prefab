@@ -44,6 +44,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1079000882559835446}
+  - component: {fileID: -3628626069181747049}
   m_Layer: 0
   m_Name: ZoneCultivable
   m_TagString: Untagged
@@ -70,6 +71,19 @@ Transform:
   - {fileID: 419849366778151830}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-3628626069181747049
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1378103084748034230}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90d439c3cdac21e429e87c27cbeb9b37, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  zoneCultivableName: 
 --- !u!1 &1432594989404431120
 GameObject:
   m_ObjectHideFlags: 0
@@ -227,6 +241,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule3
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FirstLine/HarvastableCapsule3
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -288,6 +306,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule6
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/SecondLine/HarvastableCapsule6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -355,6 +377,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule1
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FirstLine/HarvastableCapsule1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -416,6 +442,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule10
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/ThirdLine/HarvastableCapsule10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -479,6 +509,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule2
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FirstLine/HarvastableCapsule2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -540,6 +574,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule13
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FourthLine/HarvastableCapsule13
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -603,6 +641,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule7
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/SecondLine/HarvastableCapsule7
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -664,6 +706,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule12
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/ThirdLine/HarvastableCapsule12
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -727,6 +773,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule4
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FirstLine/HarvastableCapsule4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -788,6 +838,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/SecondLine/HarvastableCapsule5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -851,6 +905,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule16
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FourthLine/HarvastableCapsule16
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -912,6 +970,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule11
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/ThirdLine/HarvastableCapsule11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -975,6 +1037,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule15
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FourthLine/HarvastableCapsule15
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1036,6 +1102,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/SecondLine/HarvastableCapsule8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1099,6 +1169,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: HarvastableCapsule14
       objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/FourthLine/HarvastableCapsule14
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1160,6 +1234,10 @@ PrefabInstance:
     - target: {fileID: 7058037170944236511, guid: e06e05eb640153843a30a64584fc406e, type: 3}
       propertyPath: m_Name
       value: HarvastableCapsule9
+      objectReference: {fileID: 0}
+    - target: {fileID: 7727031104972340593, guid: e06e05eb640153843a30a64584fc406e, type: 3}
+      propertyPath: uniqueId
+      value: ZoneCultivable/ThirdLine/HarvastableCapsule9
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

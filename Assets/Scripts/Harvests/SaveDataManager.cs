@@ -1,45 +1,103 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 // Classe permettant de sauvegarder les données de l'inventaire
 public static class SaveInventoryManager
 {
     // Fonction permettant de sauvegarder les données en JSON
-    public static void SaveJsonData(IEnumerable<ISaveable> a_Saveables)
+    public static void SaveJsonData(Inventory inventory, List<HarvestableSaveData> harvestableList, List<TreeLandSaveData> treeLandList)
     {
         // Créer un conteneur de données
-        InventoryData data = new InventoryData();
+        InventorySaveData saveInventory = new InventorySaveData();
 
-        // Demander aux saveables de remplir ce conteneur
-        foreach (var saveable in a_Saveables)
-        {
-            saveable.PopulateInventory(data);
-        }
+        inventory.PopulateInventory(saveInventory);
 
-        SaveFile saveFile = new SaveFile();
-        saveFile.inventory = data;
+        List<ItemData> itemUnlock = MainManager.Instance.GetItemUnlock();
+
+        SaveDatas saveDatas = new SaveDatas();
+        saveDatas.inventory = saveInventory;
+        saveDatas.harvestables = harvestableList;
+        saveDatas.treeLands = treeLandList;
+        saveDatas.itemsUnlock = itemUnlock;
+
         // Sérialiser et écrire
-        string json = JsonUtility.ToJson(saveFile);
+        string json = JsonUtility.ToJson(saveDatas);
         if (FileManager.WriteToFile("Inventory.dat", json))
         {
             Debug.Log("Save successful");
-            Debug.Log(data.content?.Count ?? 0);
-            Debug.Log(json);
         }
     }
 
     // Fonction permettant de charger les données en JSON
-    public static void LoadJsonData(IEnumerable<ISaveable> a_Saveables)
+    public static void LoadJsonData(Inventory inventory, List<Harvestable> harvestableList, List<TreeLand> treeLandList)
     {
         if (FileManager.LoadFromFile("Inventory.dat", out var json))
         {
-            Debug.Log("json: "+ json);
-            SaveFile saveFile = JsonUtility.FromJson<SaveFile>(json);
-            InventoryData data = saveFile.inventory;
+            SaveDatas saveDatas = JsonUtility.FromJson<SaveDatas>(json);
 
-            foreach (var saveable in a_Saveables)
+            if (saveDatas != null)
             {
-                saveable.LoadFromInventory(data);
+                InventorySaveData inventorySaved = saveDatas.inventory;
+
+                inventory.LoadFromInventory(inventorySaved);
+                inventory.RefreshContent();
+
+                //Chargement des terres cultivables
+                foreach (HarvestableSaveData harvestablePointer in saveDatas.harvestables)
+                {
+                    Harvestable harvestable = harvestableList.FirstOrDefault(h => h.UniqueId == harvestablePointer.uniqueId);
+
+                    if (harvestable != null)
+                    {
+                        harvestable.LoadFromHarvestable(harvestablePointer);
+                    }
+                }
+
+                //Chargement des terres d'arbres cultivables
+                foreach (TreeLandSaveData treeLandPointer in saveDatas.treeLands)
+                {
+                    TreeLand treeLand = treeLandList.FirstOrDefault(tl => tl.UniqueId == treeLandPointer.uniqueId);
+
+                    if (treeLand != null)
+                    {
+                        treeLand.LoadFromTreeLand(treeLandPointer);
+                    }
+                }
+
+                //Chargement des objets achetés
+                foreach (ItemData unlockItem in saveDatas.itemsUnlock)
+                {
+                    MainManager.Instance.AddItem(unlockItem);
+
+                    if (unlockItem.GetItemType() == ItemType.Destroyable)
+                    {
+                        GameObject[] listeOfDestroyItem = GameObject.FindGameObjectsWithTag("DestroyZone");
+                        foreach (GameObject destroyItem in listeOfDestroyItem)
+                        {
+                            DestroyZone script = destroyItem.GetComponent<DestroyZone>();
+
+                            if (script != null && script.GetItem().GetName() == unlockItem.GetName())
+                            {
+                                script.DestroyObject();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        GameObject[] listeOfLockItem = GameObject.FindGameObjectsWithTag("LockZone");
+                        foreach (GameObject lockItem in listeOfLockItem)
+                        {
+                            DisabledZone script = lockItem.GetComponent<DisabledZone>();
+
+                            if (script != null && script.GetItem().GetName() == unlockItem.GetName())
+                            {
+                                script.UnlockZone();
+                            }
+                        }
+                    }
+                }
+
             }
 
             Debug.Log("Load complete");
@@ -48,7 +106,10 @@ public static class SaveInventoryManager
 }
 
 [System.Serializable]
-public class SaveFile
+public class SaveDatas
 {
-    public InventoryData inventory;
+    public InventorySaveData inventory;
+    public List<HarvestableSaveData> harvestables;
+    public List<TreeLandSaveData> treeLands;
+    public List<ItemData> itemsUnlock;
 }

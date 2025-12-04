@@ -83,6 +83,11 @@ public class LanguageManager : MonoBehaviour
         }
     }
 
+    public string GetLanguage()
+    {
+        return currentLanguage;
+    }
+
 }
 
 [System.Serializable]
@@ -90,4 +95,5 @@ public class TranslationData
 {
     public Dictionary<string, string> en;
     public Dictionary<string, string> fr;
+    public Dictionary<string, string> esp;
 }

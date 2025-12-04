@@ -1,4 +1,7 @@
+using System.Collections.Generic;
+using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -33,6 +36,46 @@ public class EventSystem : MonoBehaviour
 
     private void Start()
     {
+        Inventory inventaire = FindAnyObjectByType<Inventory>();
+        List<Harvestable> harvestables = FindObjectsOfType<Harvestable>().ToList();
+        List<TreeLand> treeLands = FindObjectsOfType<TreeLand>().ToList();
+
+        SaveInventoryManager.LoadJsonData(inventaire, harvestables, treeLands);
+
+        ItemData toolEquipped = inventaire.GetToolEquipped();
+
+        if (toolEquipped != null)
+        {
+            var fillable = toolEquipped as FillableData;
+            if(fillable != null)
+            {
+                toolEquipped = inventaire.toolRef;
+            }
+
+            List<Item> itemDatas = FindObjectsOfType<Item>().ToList();
+            foreach (var item in itemDatas)
+            {
+                if(item.globalItem == toolEquipped)
+                {
+                    Destroy(item.GameObject());
+                }
+            }
+        }
+
+        if (inventaire.HaveBackpack())
+        {
+            ItemData backpack = inventaire.backpackRef;
+
+            List<Item> itemDatas = FindObjectsOfType<Item>().ToList();
+            foreach (var item in itemDatas)
+            {
+                if (item.globalItem == backpack)
+                {
+                    Destroy(item.GameObject());
+                }
+            }
+        }
+
         lastMenu = inventory;
     }
 
